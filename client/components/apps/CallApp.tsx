@@ -102,7 +102,7 @@ export function CallApp() {
   return (
     <ResizableWindow appId="call" title="📞 Call AI">
       {!isCallActive ? (
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full min-h-0">
           {/* Search Bar */}
           <div className="p-4 border-b border-white/10">
             <input
