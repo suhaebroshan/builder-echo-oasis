@@ -117,6 +117,7 @@ export const useAppStore = create<AppStore>((set, get) => ({
         [appId]: {
           ...apps[appId],
           isOpen: true,
+          isMinimized: false,
           zIndex: newZIndex,
         },
       },
@@ -132,6 +133,48 @@ export const useAppStore = create<AppStore>((set, get) => ({
         [appId]: {
           ...apps[appId],
           isOpen: false,
+          isMinimized: false,
+          isMaximized: false,
+        },
+      },
+    });
+  },
+
+  minimizeApp: (appId: AppId) => {
+    const { apps } = get();
+    set({
+      apps: {
+        ...apps,
+        [appId]: {
+          ...apps[appId],
+          isMinimized: true,
+        },
+      },
+    });
+  },
+
+  maximizeApp: (appId: AppId) => {
+    const { apps } = get();
+    set({
+      apps: {
+        ...apps,
+        [appId]: {
+          ...apps[appId],
+          isMaximized: !apps[appId].isMaximized,
+        },
+      },
+    });
+  },
+
+  restoreApp: (appId: AppId) => {
+    const { apps } = get();
+    set({
+      apps: {
+        ...apps,
+        [appId]: {
+          ...apps[appId],
+          isMinimized: false,
+          isMaximized: false,
         },
       },
     });
