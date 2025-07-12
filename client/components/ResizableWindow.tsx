@@ -166,7 +166,7 @@ export function ResizableWindow({
         zIndex: app.zIndex + 1000,
       }}
     >
-            {/* Window Container */}
+      {/* Window Container */}
       <LiquidGlass
         variant="panel"
         intensity="heavy"
@@ -258,7 +258,7 @@ export function ResizableWindow({
             />
           </>
         )}
-      </div>
+      </LiquidGlass>
     </div>
   );
 }
