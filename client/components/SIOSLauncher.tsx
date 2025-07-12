@@ -17,7 +17,7 @@ function AppIcon({ appId, icon, name, onOpen }: AppIconProps) {
       onClick={() => onOpen(appId)}
       className={cn(
         "group relative flex flex-col items-center justify-center",
-        "w-20 h-20 rounded-2xl transition-all duration-300",
+        "w-16 h-16 sm:w-20 sm:h-20 rounded-2xl transition-all duration-300",
         "backdrop-blur-md border border-white/20",
         "hover:scale-110 hover:shadow-glow active:scale-95",
         theme === "sam"
@@ -25,14 +25,14 @@ function AppIcon({ appId, icon, name, onOpen }: AppIconProps) {
           : "bg-nova-blue/20 hover:bg-nova-cyan/30 hover:border-nova-cyan/60",
       )}
     >
-      <span className="text-2xl mb-1 group-hover:scale-110 transition-transform">
+      <span className="text-xl sm:text-2xl mb-1 group-hover:scale-110 transition-transform">
         {icon}
       </span>
       <span
         className={cn(
-          "absolute -bottom-8 text-xs font-medium opacity-0",
+          "absolute -bottom-6 sm:-bottom-8 text-xs font-medium opacity-0",
           "group-hover:opacity-100 transition-opacity duration-200",
-          "text-white drop-shadow-lg",
+          "text-white drop-shadow-lg text-center max-w-20",
         )}
       >
         {name}
