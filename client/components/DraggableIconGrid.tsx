@@ -75,9 +75,10 @@ function DraggableIcon({
       document.removeEventListener("mouseup", handleMouseUp);
 
       // Snap to grid
+      const { width: cellWidth, height: cellHeight } = getCellSize();
       const snappedPosition: IconPosition = {
-        x: position.gridX * gridSize,
-        y: position.gridY * gridSize + 60, // Account for status bar
+        x: position.gridX * cellWidth + 20,
+        y: position.gridY * cellHeight + 80,
         gridX: position.gridX,
         gridY: position.gridY,
       };
