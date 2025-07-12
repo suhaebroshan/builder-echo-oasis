@@ -179,7 +179,7 @@ export function AndroidNavigation() {
 
   return (
     <>
-      <div className="relative z-10 flex justify-center items-center p-4 sm:p-6 pb-6 sm:pb-8">
+      <div className="flex justify-center items-center p-4 pb-8">
         <div
           className={cn(
             "flex items-center gap-4 sm:gap-6 px-6 sm:px-8 py-3 sm:py-4 rounded-3xl",
