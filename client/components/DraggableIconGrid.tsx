@@ -99,12 +99,6 @@ function DraggableIcon({
     document.addEventListener("mouseup", handleMouseUp);
   };
 
-  const handleClick = () => {
-    if (!isDragging) {
-      onOpen(appId);
-    }
-  };
-
   return (
     <button
       ref={iconRef}
