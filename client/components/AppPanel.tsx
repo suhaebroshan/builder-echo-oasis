@@ -116,7 +116,7 @@ export function AppPanel({
       onClick={handlePanelClick}
       className={cn(
         "fixed inset-0 z-50 flex items-center justify-center",
-        "transition-all duration-300 ease-out",
+        "animate-in fade-in slide-in-from-bottom-8 duration-300",
         fullscreen ? "p-0" : "p-4",
       )}
       style={{
