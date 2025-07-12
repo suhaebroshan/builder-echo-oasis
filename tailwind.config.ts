@@ -13,6 +13,10 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        'poppins': ['Poppins', 'sans-serif'],
+        'space': ['Space Grotesk', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -47,21 +51,42 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        sidebar: {
-          DEFAULT: "hsl(var(--sidebar-background))",
-          foreground: "hsl(var(--sidebar-foreground))",
-          primary: "hsl(var(--sidebar-primary))",
-          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
-          accent: "hsl(var(--sidebar-accent))",
-          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border: "hsl(var(--sidebar-border))",
-          ring: "hsl(var(--sidebar-ring))",
+        // SIOS Sam Theme Colors
+        sam: {
+          pink: "hsl(var(--sam-pink))",
+          black: "hsl(var(--sam-black))",
+          gray: "hsl(var(--sam-gray))",
+          accent: "hsl(var(--sam-accent))",
         },
-      },
+        // SIOS Nova Theme Colors
+        nova: {
+          blue: "hsl(var(--nova-blue))",
+          purple: "hsl(var(--nova-purple))",
+          cyan: "hsl(var(--nova-cyan))",
+          accent: "hsl(var(--nova-accent))",
+        },
+        // SIOS System Colors
+        sios: {
+          panel: "hsl(var(--sios-panel))",
+          glass: "hsl(var(--sios-glass))",
+          border: "hsl(var(--sios-border))",
+          glow: "hsl(var(--sios-glow))",
+              },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        xl: "1.5rem",
+        "2xl": "2rem",
+        "3xl": "3rem",
+      },
+      backdropBlur: {
+        xs: '2px',
+      },
+      boxShadow: {
+        'glow': '0 0 20px rgba(var(--glow-color), 0.5)',
+        'glow-lg': '0 0 40px rgba(var(--glow-color), 0.4)',
+        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
       },
       keyframes: {
         "accordion-down": {
