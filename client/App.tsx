@@ -1,30 +1,30 @@
 import "./global.css";
 
-import { Toaster } from "@/components/ui/toaster";
 import { createRoot } from "react-dom/client";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-
-const queryClient = new QueryClient();
+import { ThemeProvider } from "./contexts/ThemeContext";
+import { SIOSLauncher } from "./components/SIOSLauncher";
+import { ChatApp } from "./components/apps/ChatApp";
+import { SettingsApp } from "./components/apps/SettingsApp";
+import { PersonalityApp } from "./components/apps/PersonalityApp";
+import { CalendarApp } from "./components/apps/CalendarApp";
+import { CallApp } from "./components/apps/CallApp";
+import { MemoryApp } from "./components/apps/MemoryApp";
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <ThemeProvider>
+    <div className="w-full h-screen overflow-hidden bg-black font-poppins">
+      {/* Main SIOS Launcher */}
+      <SIOSLauncher />
+
+      {/* App Panels */}
+      <ChatApp />
+      <SettingsApp />
+      <PersonalityApp />
+      <CalendarApp />
+      <CallApp />
+      <MemoryApp />
+    </div>
+  </ThemeProvider>
 );
 
 createRoot(document.getElementById("root")!).render(<App />);
