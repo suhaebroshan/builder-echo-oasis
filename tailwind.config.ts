@@ -106,10 +106,30 @@ export default {
             height: "0",
           },
         },
+        shimmer: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(100%)" },
+        },
+        "liquid-flow": {
+          "0%, 100%": { transform: "scale(1) rotate(0deg)", opacity: "0.3" },
+          "50%": { transform: "scale(1.1) rotate(180deg)", opacity: "0.6" },
+        },
+        "glass-pulse": {
+          "0%, 100%": { opacity: "0.2", transform: "scale(1)" },
+          "50%": { opacity: "0.4", transform: "scale(1.02)" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        shimmer: "shimmer 2s ease-in-out infinite",
+        "liquid-flow": "liquid-flow 4s ease-in-out infinite",
+        "glass-pulse": "glass-pulse 3s ease-in-out infinite",
+        float: "float 3s ease-in-out infinite",
       },
     },
   },
