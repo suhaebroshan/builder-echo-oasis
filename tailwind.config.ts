@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        'poppins': ['Poppins', 'sans-serif'],
-        'space': ['Space Grotesk', 'sans-serif'],
+        poppins: ["Poppins", "sans-serif"],
+        space: ["Space Grotesk", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -71,7 +71,8 @@ export default {
           glass: "hsl(var(--sios-glass))",
           border: "hsl(var(--sios-border))",
           glow: "hsl(var(--sios-glow))",
-              },
+        },
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -81,12 +82,12 @@ export default {
         "3xl": "3rem",
       },
       backdropBlur: {
-        xs: '2px',
+        xs: "2px",
       },
       boxShadow: {
-        'glow': '0 0 20px rgba(var(--glow-color), 0.5)',
-        'glow-lg': '0 0 40px rgba(var(--glow-color), 0.4)',
-        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+        glow: "0 0 20px rgba(var(--glow-color), 0.5)",
+        "glow-lg": "0 0 40px rgba(var(--glow-color), 0.4)",
+        glass: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
       },
       keyframes: {
         "accordion-down": {
