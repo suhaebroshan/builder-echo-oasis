@@ -149,14 +149,19 @@ export function SIOSLauncher() {
       {/* App Grid */}
       <div className="relative z-10 flex-1 flex items-center justify-center p-8">
         <div className="grid grid-cols-3 gap-8 max-w-md">
-          {Object.values(apps).map((app) => (
-            <AppIcon
+          {Object.values(apps).map((app, index) => (
+            <div
               key={app.id}
-              appId={app.id}
-              icon={app.icon}
-              name={app.name}
-              onOpen={openApp}
-            />
+              className="animate-in slide-in-from-bottom-8 fade-in"
+              style={{ animationDelay: `${index * 150}ms` }}
+            >
+              <AppIcon
+                appId={app.id}
+                icon={app.icon}
+                name={app.name}
+                onOpen={openApp}
+              />
+            </div>
           ))}
         </div>
       </div>
