@@ -130,7 +130,7 @@ export function ChatApp() {
 
   return (
     <ResizableWindow appId="chat" title="💬 Chat with Sam">
-      <div className="flex flex-col h-full">
+      <div className="flex flex-col h-full min-h-0">
         {/* Messages Area */}
         <div className="flex-1 overflow-y-auto p-4 space-y-2">
           {messages.map((message) => (
