@@ -26,20 +26,22 @@ function NavigationButton({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full",
-        "backdrop-blur-md border transition-all duration-300",
+        "flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full relative overflow-hidden",
+        "backdrop-blur-xl border transition-all duration-300",
         "hover:scale-110 active:scale-95",
+        "before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:to-transparent before:opacity-50",
+        "after:absolute after:inset-0 after:bg-gradient-to-tr after:from-transparent after:via-white/10 after:to-white/20",
         disabled && "opacity-50 cursor-not-allowed",
         !disabled && "hover:scale-110",
         active
           ? theme === "sam"
-            ? "bg-sam-pink/30 border-sam-pink/60 shadow-glow"
-            : "bg-nova-blue/30 border-nova-blue/60 shadow-glow"
-          : "bg-white/10 border-white/20 hover:bg-white/20",
+            ? "bg-sam-pink/40 border-sam-pink/60 shadow-[0_8px_32px_rgba(236,72,153,0.3)]"
+            : "bg-nova-blue/40 border-nova-blue/60 shadow-[0_8px_32px_rgba(59,130,246,0.3)]"
+          : "bg-white/15 border-white/30 hover:bg-white/25 shadow-[0_8px_32px_rgba(255,255,255,0.1)]",
       )}
       aria-label={label}
     >
-      <span className="text-lg sm:text-xl">{icon}</span>
+      <span className="text-lg sm:text-xl relative z-10">{icon}</span>
     </button>
   );
 }
