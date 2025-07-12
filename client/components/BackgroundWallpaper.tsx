@@ -4,6 +4,23 @@ import { cn } from "../lib/utils";
 export function BackgroundWallpaper() {
   const { theme } = useTheme();
 
+  // Check for custom wallpaper
+  const customWallpaper = getComputedStyle(
+    document.documentElement,
+  ).getPropertyValue("--custom-wallpaper");
+
+  if (customWallpaper && customWallpaper !== "") {
+    return (
+      <div className="absolute inset-0 overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: customWallpaper }}
+        />
+        <div className="absolute inset-0 bg-black/20" />
+      </div>
+    );
+  }
+
   if (theme === "sam") {
     return (
       <div className="absolute inset-0 overflow-hidden">
