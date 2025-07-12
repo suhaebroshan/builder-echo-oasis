@@ -1,12 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
+import { useAppStore } from "../../stores/appStore";
 import { ResizableWindow } from "../ResizableWindow";
 import { cn } from "../../lib/utils";
 
+interface Contact {
+  id: string;
+  name: string;
+  phoneNumber: string;
+  icon: string;
+  type: "personality" | "contact";
+}
+
 export function CallApp() {
   const { theme } = useTheme();
+  const { apps, openApp } = useAppStore();
   const [isCallActive, setIsCallActive] = useState(false);
   const [callDuration, setCallDuration] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [dialNumber, setDialNumber] = useState("");
+  const [currentCall, setCurrentCall] = useState<Contact | null>(null);
+  const [contacts, setContacts] = useState<Contact[]>([]);
 
   const handleStartCall = () => {
     setIsCallActive(true);
