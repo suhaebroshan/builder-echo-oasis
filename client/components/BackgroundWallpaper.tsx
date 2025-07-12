@@ -126,23 +126,43 @@ export function BackgroundWallpaper() {
     );
   }
 
-  // Nova theme
+  // Nova theme - Futuristic holographic Android-style
   return (
     <div className="absolute inset-0 overflow-hidden">
-      {/* Holographic gradient base */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900/30 to-purple-900/20" />
+      {/* Multi-layered holographic base */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900/40 to-purple-900/30" />
+      <div className="absolute inset-0 bg-gradient-to-tl from-transparent via-nova-blue/15 to-nova-cyan/20 animate-glass-pulse" />
 
-      {/* Holographic grid pattern */}
-      <div className="absolute inset-0 opacity-30">
+      {/* Floating holographic orbs */}
+      <div className="absolute inset-0 opacity-50">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full bg-gradient-to-br from-nova-cyan/40 to-nova-blue/20 blur-lg animate-float"
+            style={{
+              width: `${80 + Math.random() * 150}px`,
+              height: `${80 + Math.random() * 150}px`,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${i * 1.2}s`,
+              animationDuration: `${6 + Math.random() * 4}s`,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Advanced holographic grid */}
+      <div className="absolute inset-0 opacity-40">
         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1000 1000">
           <defs>
             <linearGradient id="novaGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.8" />
-              <stop offset="50%" stopColor="#06b6d4" stopOpacity="0.6" />
-              <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.8" />
+              <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.9" />
+              <stop offset="25%" stopColor="#06b6d4" stopOpacity="0.7" />
+              <stop offset="75%" stopColor="#8b5cf6" stopOpacity="0.8" />
+              <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.9" />
             </linearGradient>
             <filter id="hologramGlow">
-              <feGaussianBlur stdDeviation="2" result="coloredBlur" />
+              <feGaussianBlur stdDeviation="3" result="coloredBlur" />
               <feMerge>
                 <feMergeNode in="coloredBlur" />
                 <feMergeNode in="SourceGraphic" />
@@ -150,111 +170,128 @@ export function BackgroundWallpaper() {
             </filter>
           </defs>
 
-          {/* Animated grid lines */}
-          {Array.from({ length: 10 }).map((_, i) => (
-            <g key={i}>
+          {/* Dynamic grid system */}
+          {Array.from({ length: 12 }).map((_, i) => (
+            <g
+              key={i}
+              className="animate-pulse"
+              style={{
+                animationDelay: `${i * 0.3}s`,
+                animationDuration: `${4 + Math.random() * 2}s`,
+              }}
+            >
               <line
-                x1={i * 100}
+                x1={i * 83.33}
                 y1="0"
-                x2={i * 100}
+                x2={i * 83.33}
                 y2="1000"
                 stroke="url(#novaGlow)"
                 strokeWidth="1"
-                opacity="0.4"
+                opacity={0.3 + Math.random() * 0.3}
                 filter="url(#hologramGlow)"
-                className="animate-pulse"
-                style={{ animationDelay: `${i * 0.2}s` }}
               />
               <line
                 x1="0"
-                y1={i * 100}
+                y1={i * 83.33}
                 x2="1000"
-                y2={i * 100}
+                y2={i * 83.33}
                 stroke="url(#novaGlow)"
                 strokeWidth="1"
-                opacity="0.4"
+                opacity={0.3 + Math.random() * 0.3}
                 filter="url(#hologramGlow)"
-                className="animate-pulse"
-                style={{ animationDelay: `${i * 0.3}s` }}
               />
             </g>
           ))}
 
-          {/* Floating holographic elements */}
-          <circle
-            cx="200"
-            cy="200"
-            r="50"
-            fill="none"
-            stroke="url(#novaGlow)"
-            strokeWidth="2"
-            opacity="0.6"
-            className="animate-spin"
-            style={{ animationDuration: "10s" }}
-          />
-          <circle
-            cx="800"
-            cy="300"
-            r="30"
-            fill="none"
-            stroke="url(#novaGlow)"
-            strokeWidth="2"
-            opacity="0.4"
-            className="animate-spin"
-            style={{ animationDuration: "15s", animationDirection: "reverse" }}
-          />
-          <rect
-            x="600"
-            y="700"
-            width="60"
-            height="60"
-            fill="none"
-            stroke="url(#novaGlow)"
-            strokeWidth="2"
-            opacity="0.5"
-            className="animate-pulse"
-          />
+          {/* Futuristic geometric elements */}
+          {Array.from({ length: 6 }).map((_, i) => (
+            <g key={`geo-${i}`}>
+              <polygon
+                points={`${200 + i * 150},${150 + i * 100} ${250 + i * 150},${100 + i * 100} ${300 + i * 150},${150 + i * 100} ${250 + i * 150},${200 + i * 100}`}
+                fill="none"
+                stroke="url(#novaGlow)"
+                strokeWidth="2"
+                opacity={0.4 + Math.random() * 0.2}
+                className="animate-spin"
+                style={{
+                  transformOrigin: `${250 + i * 150}px ${150 + i * 100}px`,
+                  animationDuration: `${10 + i * 2}s`,
+                  animationDirection: i % 2 ? "reverse" : "normal",
+                }}
+              />
+            </g>
+          ))}
 
-          {/* Scanning lines */}
-          <line
-            x1="0"
-            y1="300"
-            x2="1000"
-            y2="300"
-            stroke="#06b6d4"
-            strokeWidth="2"
-            opacity="0.8"
-            filter="url(#hologramGlow)"
-            className="animate-pulse"
-            style={{ animationDuration: "2s" }}
-          />
-          <line
-            x1="0"
-            y1="600"
-            x2="1000"
-            y2="600"
-            stroke="#3b82f6"
-            strokeWidth="1"
-            opacity="0.6"
-            filter="url(#hologramGlow)"
-            className="animate-pulse"
-            style={{ animationDuration: "3s", animationDelay: "1s" }}
-          />
+          {/* Scanning beam effects */}
+          {Array.from({ length: 4 }).map((_, i) => (
+            <line
+              key={`scan-${i}`}
+              x1="0"
+              y1={200 + i * 200}
+              x2="1000"
+              y2={200 + i * 200}
+              stroke="url(#novaGlow)"
+              strokeWidth={2 + Math.random() * 2}
+              opacity="0.7"
+              filter="url(#hologramGlow)"
+              className="animate-pulse"
+              style={{
+                animationDuration: `${2 + Math.random() * 2}s`,
+                animationDelay: `${i * 0.5}s`,
+              }}
+            />
+          ))}
         </svg>
       </div>
 
-      {/* Digital rain effect */}
-      <div className="absolute inset-0 opacity-15">
-        {Array.from({ length: 15 }).map((_, i) => (
+      {/* Matrix-style digital rain */}
+      <div className="absolute inset-0 opacity-25">
+        {Array.from({ length: 25 }).map((_, i) => (
           <div
             key={i}
-            className="absolute w-px bg-gradient-to-b from-transparent via-nova-cyan to-transparent animate-pulse"
+            className="absolute bg-gradient-to-b from-nova-cyan via-nova-blue to-transparent animate-pulse"
             style={{
+              width: "2px",
+              height: `${100 + Math.random() * 200}px`,
               left: `${Math.random() * 100}%`,
-              height: `${50 + Math.random() * 100}px`,
               top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 4}s`,
-              animationDuration: `${3 + Math.random() * 2}s`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${2 + Math.random() * 3}s`,
+              transform: `rotate(${Math.random() * 10 - 5}deg)`,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Holographic data streams */}
+      <div className="absolute inset-0 opacity-20">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div
+            key={i}
+            className="absolute bg-gradient-to-r from-transparent via-nova-cyan/60 to-transparent h-0.5 w-full animate-shimmer"
+            style={{
+              top: `${15 + i * 15}%`,
+              animationDelay: `${i * 1.5}s`,
+              transform: `rotate(${-15 + i * 5}deg)`,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Floating holographic particles */}
+      <div className="absolute inset-0 opacity-30">
+        {Array.from({ length: 40 }).map((_, i) => (
+          <div
+            key={i}
+            className="absolute bg-nova-cyan rounded-full animate-float"
+            style={{
+              width: `${1 + Math.random() * 2}px`,
+              height: `${1 + Math.random() * 2}px`,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 8}s`,
+              animationDuration: `${6 + Math.random() * 6}s`,
+              boxShadow: `0 0 ${4 + Math.random() * 8}px currentColor`,
             }}
           />
         ))}
