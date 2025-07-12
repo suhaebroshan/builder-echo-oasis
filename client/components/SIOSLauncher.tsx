@@ -25,17 +25,20 @@ export function SIOSLauncher() {
           <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
           SIOS
         </div>
-        <button
-          onClick={toggleTheme}
-          className={cn(
-            "px-3 py-1 rounded-full text-xs font-medium",
-            "backdrop-blur-md border border-white/20",
-            "hover:bg-white/10 transition-colors",
-            theme === "sam" ? "text-sam-pink" : "text-nova-cyan",
-          )}
-        >
-          {theme === "sam" ? "🎨 SAM" : "🌟 NOVA"}
-        </button>
+        <div className="flex items-center gap-2 text-xs">
+          <span className="opacity-60">
+            {new Date().toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </span>
+          <div className="flex gap-1">
+            <div className="w-1 h-3 bg-white/60 rounded-full" />
+            <div className="w-1 h-3 bg-white/40 rounded-full" />
+            <div className="w-1 h-3 bg-white/60 rounded-full" />
+            <div className="w-1 h-3 bg-white/80 rounded-full" />
+          </div>
+        </div>
       </div>
 
       {/* App Grid - Full Screen */}
