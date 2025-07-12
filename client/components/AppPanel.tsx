@@ -48,7 +48,7 @@ export function AppPanel({
         initialY = (e as MouseEvent).clientY - yOffset;
       }
 
-      if ((e.target as HTMLElement).closest(dragRef.current!)) {
+      if (dragRef.current && dragRef.current.contains(e.target as Node)) {
         isDragging = true;
         bringToFront(appId);
       }
