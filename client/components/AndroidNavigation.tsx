@@ -172,11 +172,11 @@ export function AndroidNavigation() {
     minimizeAll();
   };
 
-  const handleRecentsButton = () => {
+    const handleRecentsButton = () => {
     setShowRecents(true);
   };
 
-      return (
+  return (
     <>
       <div className="flex justify-center items-center p-4 pb-8">
         <LiquidGlass
