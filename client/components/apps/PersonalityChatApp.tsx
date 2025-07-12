@@ -163,7 +163,7 @@ export function PersonalityChatApp({ personality }: PersonalityChatAppProps) {
       appId={personality.id}
       title={`${personality.icon} Chat with ${personality.name}`}
     >
-      <div className="flex flex-col h-full">
+      <div className="flex flex-col h-full min-h-0">
         {/* Personality Info Header */}
         <div
           className={cn(
