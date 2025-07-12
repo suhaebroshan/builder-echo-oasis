@@ -136,7 +136,9 @@ export function SettingsApp() {
     darkMode: true,
     language: "en",
     voiceType: "neural",
+    customWallpaper: null as string | null,
   });
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleToggle = (key: keyof typeof settings) => (checked: boolean) => {
     setSettings((prev) => ({ ...prev, [key]: checked }));
