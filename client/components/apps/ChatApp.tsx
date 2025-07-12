@@ -128,7 +128,7 @@ export function ChatApp() {
     }
   };
 
-    return (
+  return (
     <ResizableWindow appId="chat" title="💬 Chat with Sam">
       <div className="flex flex-col h-full">
         {/* Messages Area */}
@@ -254,6 +254,6 @@ export function ChatApp() {
           </div>
         </div>
       </div>
-    </AppPanel>
+    </ResizableWindow>
   );
 }
