@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useTheme } from "../contexts/ThemeContext";
 import { useAppStore, type AppId } from "../stores/appStore";
+import { LiquidGlass } from "./LiquidGlass";
 import { cn } from "../lib/utils";
 
 interface IconPosition {
