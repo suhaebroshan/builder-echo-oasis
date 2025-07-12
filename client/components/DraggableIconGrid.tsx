@@ -135,33 +135,49 @@ export function DraggableIconGrid() {
     Partial<Record<AppId, IconPosition>>
   >({});
   const gridRef = useRef<HTMLDivElement>(null);
-  const gridSize = 80; // Smaller grid for more granular positioning
 
-  // Initialize icon positions across the full screen
+  // Fixed 15x5 grid system
+  const GRID_COLS = 15;
+  const GRID_ROWS = 5;
+
+  // Calculate cell size based on available screen space
+  const getCellSize = () => {
+    const availableWidth = window.innerWidth - 40; // 20px padding on each side
+    const availableHeight = window.innerHeight - 240; // Account for status bar (60px) and nav (180px)
+
+    const cellWidth = availableWidth / GRID_COLS;
+    const cellHeight = availableHeight / GRID_ROWS;
+
+    return {
+      width: cellWidth,
+      height: cellHeight,
+      size: Math.min(cellWidth, cellHeight), // Use smaller dimension for square cells
+    };
+  };
+
+  // Initialize icon positions in the 15x5 grid
   useEffect(() => {
     const initialPositions: Partial<Record<AppId, IconPosition>> = {};
     const appIds = Object.keys(apps);
-
-    // Calculate grid dimensions based on screen size
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight - 200; // Account for status bar and nav
-    const cols = Math.floor(screenWidth / gridSize);
-    const rows = Math.floor(screenHeight / gridSize);
+    const { width: cellWidth, height: cellHeight } = getCellSize();
 
     appIds.forEach((appId, index) => {
-      // Spread icons across the available space more naturally
-      const col = (index * 2) % cols; // Space them out more
-      const row = Math.floor((index * 2) / cols);
+      // Place icons starting from top-left, row by row
+      const gridX = index % GRID_COLS;
+      const gridY = Math.floor(index / GRID_COLS);
 
-      initialPositions[appId as AppId] = {
-        x: col * gridSize + 40,
-        y: row * gridSize + 40,
-        gridX: col,
-        gridY: row,
-      };
+      // Only place if within grid bounds
+      if (gridY < GRID_ROWS) {
+        initialPositions[appId as AppId] = {
+          x: gridX * cellWidth + 20, // 20px left padding
+          y: gridY * cellHeight + 80, // 80px top padding (status bar + some space)
+          gridX,
+          gridY,
+        };
+      }
     });
     setIconPositions(initialPositions);
-  }, [apps, gridSize]);
+  }, [apps]);
 
   const handlePositionChange = (appId: AppId, position: IconPosition) => {
     setIconPositions((prev: Partial<Record<AppId, IconPosition>>) => ({
