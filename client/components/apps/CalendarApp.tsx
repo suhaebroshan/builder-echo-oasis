@@ -1,12 +1,12 @@
 import { useTheme } from "../../contexts/ThemeContext";
-import { AppPanel } from "../AppPanel";
+import { ResizableWindow } from "../ResizableWindow";
 import { cn } from "../../lib/utils";
 
 export function CalendarApp() {
   const { theme } = useTheme();
 
   return (
-    <AppPanel appId="calendar" title="📆 Calendar">
+    <ResizableWindow appId="calendar" title="📆 Calendar">
       <div className="p-6 flex flex-col items-center justify-center h-full text-center">
         <div className="text-6xl mb-4">📆</div>
         <h2
@@ -27,6 +27,6 @@ export function CalendarApp() {
           </p>
         </div>
       </div>
-    </AppPanel>
+    </ResizableWindow>
   );
 }
