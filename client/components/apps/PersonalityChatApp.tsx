@@ -96,7 +96,7 @@ export function PersonalityChatApp({ personality }: PersonalityChatAppProps) {
     } else if (personality.id === "nova" && theme !== "nova") {
       setTheme("nova");
     }
-  }, [personality.id, theme, setTheme]);
+  }, [personality.id]); // Remove theme and setTheme from dependencies to prevent infinite loop
 
   const handleSendMessage = async (content: string) => {
     if (!content.trim()) return;
