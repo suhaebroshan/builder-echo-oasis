@@ -189,6 +189,9 @@ export function DraggableIconGrid() {
     }));
   };
 
+  // Calculate current cell dimensions for rendering
+  const { width: cellWidth, height: cellHeight } = getCellSize();
+
   // Show grid overlay when dragging
   const isDraggingAny = Object.values(iconPositions).some(() => false); // We'll update this logic
 
