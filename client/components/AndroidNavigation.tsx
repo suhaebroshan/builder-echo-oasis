@@ -29,19 +29,20 @@ function NavigationButton({
         "flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full relative overflow-hidden",
         "backdrop-blur-xl border transition-all duration-300",
         "hover:scale-110 active:scale-95",
-        "before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:to-transparent before:opacity-50",
-        "after:absolute after:inset-0 after:bg-gradient-to-tr after:from-transparent after:via-white/10 after:to-white/20",
+        "bg-white/8 hover:bg-white/15 border-white/25 hover:border-white/40",
+        "shadow-[0_8px_32px_rgba(0,0,0,0.3)]",
+        "before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/15 before:to-transparent before:opacity-40",
+        "after:absolute after:inset-0 after:bg-gradient-to-tr after:from-transparent after:via-white/8 after:to-white/15 after:opacity-60",
         disabled && "opacity-50 cursor-not-allowed",
         !disabled && "hover:scale-110",
-        active
-          ? theme === "sam"
-            ? "bg-sam-pink/40 border-sam-pink/60 shadow-[0_8px_32px_rgba(236,72,153,0.3)]"
-            : "bg-nova-blue/40 border-nova-blue/60 shadow-[0_8px_32px_rgba(59,130,246,0.3)]"
-          : "bg-white/15 border-white/30 hover:bg-white/25 shadow-[0_8px_32px_rgba(255,255,255,0.1)]",
+        active &&
+          "bg-white/20 border-white/50 shadow-[0_12px_48px_rgba(0,0,0,0.4)] scale-105",
       )}
       aria-label={label}
     >
-      <span className="text-lg sm:text-xl relative z-10">{icon}</span>
+      <span className="text-lg sm:text-xl relative z-10 text-white">
+        {icon}
+      </span>
     </button>
   );
 }
