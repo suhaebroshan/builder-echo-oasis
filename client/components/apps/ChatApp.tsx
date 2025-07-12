@@ -128,8 +128,8 @@ export function ChatApp() {
     }
   };
 
-  return (
-    <AppPanel appId="chat" title="💬 Chat with Sam" fullscreen>
+    return (
+    <ResizableWindow appId="chat" title="💬 Chat with Sam">
       <div className="flex flex-col h-full">
         {/* Messages Area */}
         <div className="flex-1 overflow-y-auto p-4 space-y-2">
