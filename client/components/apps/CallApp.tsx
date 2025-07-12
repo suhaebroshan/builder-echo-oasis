@@ -22,19 +22,60 @@ export function CallApp() {
   const [currentCall, setCurrentCall] = useState<Contact | null>(null);
   const [contacts, setContacts] = useState<Contact[]>([]);
 
-  const handleStartCall = () => {
+  // Load personality contacts
+  useEffect(() => {
+    const personalityContacts: Contact[] = Object.values(apps)
+      .filter((app) => app.type === "personality")
+      .map((app) => ({
+        id: app.id,
+        name: app.name,
+        phoneNumber: app.phoneNumber || "000",
+        icon: app.icon,
+        type: "personality" as const,
+      }));
+
+    setContacts(personalityContacts);
+  }, [apps]);
+
+  // Filter contacts based on search
+  const filteredContacts = contacts.filter(
+    (contact) =>
+      contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      contact.phoneNumber.includes(searchTerm),
+  );
+
+  const handleStartCall = (contact?: Contact) => {
+    if (contact) {
+      setCurrentCall(contact);
+    } else if (dialNumber) {
+      // Find contact by phone number
+      const foundContact = contacts.find((c) => c.phoneNumber === dialNumber);
+      setCurrentCall(
+        foundContact || {
+          id: "unknown",
+          name: "Unknown",
+          phoneNumber: dialNumber,
+          icon: "📞",
+          type: "contact",
+        },
+      );
+    } else {
+      return;
+    }
+
     setIsCallActive(true);
-    // TODO: Start actual voice call with AI
+    setCallDuration(0);
+
+    // Start call timer
     const timer = setInterval(() => {
       setCallDuration((prev) => prev + 1);
     }, 1000);
 
-    // Simulate call ending after 10 seconds for demo
+    // Auto-end call after 30 seconds for demo
     setTimeout(() => {
-      setIsCallActive(false);
-      setCallDuration(0);
+      handleEndCall();
       clearInterval(timer);
-    }, 10000);
+    }, 30000);
   };
 
   const handleEndCall = () => {
