@@ -133,7 +133,7 @@ export function AppPanel({
           "transition-all duration-300 ease-out",
           fullscreen
             ? "w-full h-full rounded-none"
-            : "w-[90vw] max-w-2xl h-[80vh] max-h-[600px] rounded-3xl",
+            : "w-[95vw] sm:w-[90vw] max-w-2xl h-[85vh] sm:h-[80vh] max-h-[600px] rounded-2xl sm:rounded-3xl",
           theme === "sam"
             ? "bg-sam-black/80 border-sam-pink/30"
             : "bg-nova-blue/20 border-nova-cyan/30",
