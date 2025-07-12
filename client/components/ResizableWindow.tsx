@@ -166,15 +166,14 @@ export function ResizableWindow({
         zIndex: app.zIndex + 1000,
       }}
     >
-      {/* Window Container */}
-      <div
+            {/* Window Container */}
+      <LiquidGlass
+        variant="panel"
+        intensity="heavy"
+        animated={true}
         className={cn(
           "relative flex flex-col w-full h-full",
-          "backdrop-blur-xl border shadow-glass",
           isMaximized ? "rounded-none" : "rounded-2xl sm:rounded-3xl",
-          theme === "sam"
-            ? "bg-sam-black/80 border-sam-pink/30"
-            : "bg-nova-blue/20 border-nova-cyan/30",
           className,
         )}
       >
