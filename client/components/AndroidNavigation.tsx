@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "../contexts/ThemeContext";
 import { useAppStore } from "../stores/appStore";
+import { LiquidGlass } from "./LiquidGlass";
 import { cn } from "../lib/utils";
 
 interface NavigationButtonProps {
