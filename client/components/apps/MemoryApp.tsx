@@ -1,5 +1,5 @@
 import { useTheme } from "../../contexts/ThemeContext";
-import { AppPanel } from "../AppPanel";
+import { ResizableWindow } from "../ResizableWindow";
 import { cn } from "../../lib/utils";
 
 interface MemoryItem {
@@ -60,7 +60,7 @@ export function MemoryApp() {
   };
 
   return (
-    <AppPanel appId="memory" title="🧠 Memory Viewer">
+    <ResizableWindow appId="memory" title="🧠 Memory Viewer">
       <div className="p-6 space-y-6 overflow-y-auto">
         <div className="flex justify-between items-center">
           <h2
@@ -147,6 +147,6 @@ export function MemoryApp() {
           </div>
         </div>
       </div>
-    </AppPanel>
+    </ResizableWindow>
   );
 }
