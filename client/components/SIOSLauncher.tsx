@@ -147,8 +147,8 @@ export function SIOSLauncher() {
       </div>
 
       {/* App Grid */}
-      <div className="relative z-10 flex-1 flex items-center justify-center p-8">
-        <div className="grid grid-cols-3 gap-8 max-w-md">
+      <div className="relative z-10 flex-1 flex items-center justify-center p-4 sm:p-8">
+        <div className="grid grid-cols-3 gap-4 sm:gap-8 max-w-sm sm:max-w-md">
           {Object.values(apps).map((app, index) => (
             <div
               key={app.id}
