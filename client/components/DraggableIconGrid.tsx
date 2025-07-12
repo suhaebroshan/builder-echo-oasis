@@ -145,7 +145,7 @@ export function DraggableIconGrid() {
   }, [apps, gridSize]);
 
   const handlePositionChange = (appId: AppId, position: IconPosition) => {
-    setIconPositions((prev) => ({
+    setIconPositions((prev: Partial<Record<AppId, IconPosition>>) => ({
       ...prev,
       [appId]: position,
     }));
