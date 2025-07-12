@@ -45,23 +45,25 @@ function DraggableIcon({
     setIsDragging(true);
 
     const handleMouseMove = (e: MouseEvent) => {
-      const newX = Math.max(
-        0,
-        Math.min(window.innerWidth - 80, e.clientX - offsetX),
-      );
-      const newY = Math.max(
-        60,
-        Math.min(window.innerHeight - 200, e.clientY - offsetY),
-      ); // Account for status bar and nav
+      const { width: cellWidth, height: cellHeight } = getCellSize();
 
-      const gridX = Math.round(newX / gridSize);
-      const gridY = Math.round((newY - 60) / gridSize); // Adjust for status bar
+      // Calculate which grid cell the mouse is over
+      const gridX = Math.floor((e.clientX - 20) / cellWidth); // Account for left padding
+      const gridY = Math.floor((e.clientY - 80) / cellHeight); // Account for top padding
+
+      // Constrain to grid bounds
+      const constrainedGridX = Math.max(0, Math.min(GRID_COLS - 1, gridX));
+      const constrainedGridY = Math.max(0, Math.min(GRID_ROWS - 1, gridY));
+
+      // Calculate pixel position based on grid cell
+      const newX = constrainedGridX * cellWidth + 20;
+      const newY = constrainedGridY * cellHeight + 80;
 
       const newPosition: IconPosition = {
         x: newX,
         y: newY,
-        gridX: Math.max(0, gridX),
-        gridY: Math.max(0, gridY),
+        gridX: constrainedGridX,
+        gridY: constrainedGridY,
       };
 
       onPositionChange(appId, newPosition);
