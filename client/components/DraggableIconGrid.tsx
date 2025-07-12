@@ -115,12 +115,12 @@ function DraggableIcon({
           "backdrop-blur-xl border cursor-pointer relative overflow-hidden",
           "hover:scale-110 active:scale-95",
           "flex flex-col items-center justify-center",
-          "before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:opacity-50",
-          "after:absolute after:inset-0 after:bg-gradient-to-tr after:from-transparent after:via-white/5 after:to-white/10",
-          isDragging && "z-50 scale-110 shadow-glow cursor-grabbing",
-          theme === "sam"
-            ? "bg-sam-black/40 hover:bg-sam-pink/20 border-sam-pink/40 shadow-[0_8px_32px_rgba(236,72,153,0.2)]"
-            : "bg-nova-blue/30 hover:bg-nova-cyan/30 border-nova-cyan/40 shadow-[0_8px_32px_rgba(59,130,246,0.2)]",
+          "bg-white/5 hover:bg-white/10 border-white/20 hover:border-white/30",
+          "shadow-[0_8px_32px_rgba(0,0,0,0.3)]",
+          "before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:opacity-30",
+          "after:absolute after:inset-0 after:bg-gradient-to-tr after:from-transparent after:via-white/5 after:to-white/10 after:opacity-50",
+          isDragging &&
+            "z-50 scale-110 shadow-[0_16px_64px_rgba(0,0,0,0.4)] cursor-grabbing",
         )}
       >
         <span className="text-xl sm:text-2xl group-hover:scale-110 transition-transform pointer-events-none relative z-10">
