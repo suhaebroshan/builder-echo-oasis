@@ -19,6 +19,9 @@ export interface App {
   zIndex: number;
   position: { x: number; y: number };
   size: { width: number; height: number };
+  type?: "system" | "personality";
+  phoneNumber?: string;
+  description?: string;
 }
 
 interface AppStore {
