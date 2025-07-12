@@ -212,6 +212,62 @@ export function SettingsApp() {
                 onChange={handleToggle("darkMode")}
                 icon="🌙"
               />
+
+              {/* Custom Wallpaper */}
+              <div className="p-4 rounded-xl backdrop-blur-md bg-white/5 border border-white/10">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">🖼️</span>
+                    <div>
+                      <h3 className="font-medium text-white">
+                        Custom Wallpaper
+                      </h3>
+                      <p className="text-sm text-white/60">
+                        Upload your own background image
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {settings.customWallpaper && (
+                  <div className="mb-3 p-2 rounded-lg bg-white/5 border border-white/10">
+                    <img
+                      src={settings.customWallpaper}
+                      alt="Custom wallpaper preview"
+                      className="w-full h-20 object-cover rounded"
+                    />
+                  </div>
+                )}
+
+                <div className="flex gap-2">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleWallpaperUpload}
+                    className="hidden"
+                  />
+                  <button
+                    onClick={() => fileInputRef.current?.click()}
+                    className={cn(
+                      "px-4 py-2 rounded-lg backdrop-blur-md border text-sm font-medium transition-colors",
+                      theme === "sam"
+                        ? "bg-sam-pink/20 border-sam-pink/40 text-sam-pink hover:bg-sam-pink/30"
+                        : "bg-nova-blue/20 border-nova-blue/40 text-nova-cyan hover:bg-nova-blue/30",
+                    )}
+                  >
+                    Choose Image
+                  </button>
+                  {settings.customWallpaper && (
+                    <button
+                      onClick={removeCustomWallpaper}
+                      className="px-4 py-2 rounded-lg bg-red-500/20 border border-red-500/40 text-red-400 hover:bg-red-500/30 transition-colors text-sm font-medium"
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
+              </div>
             </div>
           </section>
 
