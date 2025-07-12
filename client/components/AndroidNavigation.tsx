@@ -185,9 +185,11 @@ export function AndroidNavigation() {
       <div className="flex justify-center items-center p-4 pb-8">
         <div
           className={cn(
-            "flex items-center gap-4 sm:gap-6 px-6 sm:px-8 py-3 sm:py-4 rounded-3xl",
-            "backdrop-blur-xl border border-white/20 shadow-glass",
-            theme === "sam" ? "bg-sam-black/40" : "bg-white/10",
+            "flex items-center gap-4 sm:gap-6 px-6 sm:px-8 py-3 sm:py-4 rounded-3xl relative overflow-hidden",
+            "backdrop-blur-xl border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.3)]",
+            "before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:to-transparent before:opacity-60",
+            "after:absolute after:inset-0 after:bg-gradient-to-tr after:from-transparent after:via-white/10 after:to-white/20",
+            theme === "sam" ? "bg-sam-black/50" : "bg-white/15",
           )}
         >
           <NavigationButton
