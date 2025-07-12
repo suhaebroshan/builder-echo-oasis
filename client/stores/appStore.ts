@@ -263,4 +263,32 @@ export const useAppStore = create<AppStore>((set, get) => ({
     const { apps } = get();
     return Object.values(apps).filter((app) => app.isOpen && app.isMinimized);
   },
+
+  addPersonality: (personality) => {
+    const { apps } = get();
+    set({
+      apps: {
+        ...apps,
+        [personality.id]: {
+          ...personality,
+          isOpen: false,
+          isMinimized: false,
+          isMaximized: false,
+          zIndex: 1,
+          type: "personality",
+        },
+      },
+    });
+  },
+
+  removePersonality: (appId) => {
+    const { apps } = get();
+    const { [appId]: removed, ...remainingApps } = apps;
+    set({ apps: remainingApps });
+  },
+
+  getPersonalities: () => {
+    const { apps } = get();
+    return Object.values(apps).filter((app) => app.type === "personality");
+  },
 }));
