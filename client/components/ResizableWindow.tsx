@@ -146,7 +146,7 @@ export function ResizableWindow({
     onClose?.();
   };
 
-  if (!isOpen || minimized) return null;
+  if (!isOpen || isMinimized) return null;
 
   return (
     <div
