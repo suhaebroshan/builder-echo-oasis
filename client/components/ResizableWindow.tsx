@@ -170,9 +170,7 @@ export function ResizableWindow({
         className={cn(
           "relative flex flex-col w-full h-full",
           "backdrop-blur-xl border shadow-glass",
-          windowState.isMaximized
-            ? "rounded-none"
-            : "rounded-2xl sm:rounded-3xl",
+          isMaximized ? "rounded-none" : "rounded-2xl sm:rounded-3xl",
           theme === "sam"
             ? "bg-sam-black/80 border-sam-pink/30"
             : "bg-nova-blue/20 border-nova-cyan/30",
