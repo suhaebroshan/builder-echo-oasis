@@ -194,25 +194,47 @@ export function DraggableIconGrid() {
 
   return (
     <div ref={gridRef} className="relative w-full h-full">
-      {/* Grid overlay for visual reference */}
-      <div className="absolute inset-0 opacity-5 pointer-events-none">
+      {/* 15x5 Grid overlay for visual reference */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
         <svg className="w-full h-full">
-          <defs>
-            <pattern
-              id="grid"
-              width={gridSize}
-              height={gridSize}
-              patternUnits="userSpaceOnUse"
-            >
-              <path
-                d={`M ${gridSize} 0 L 0 0 0 ${gridSize}`}
-                fill="none"
-                stroke="rgba(255,255,255,0.5)"
-                strokeWidth="1"
-              />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
+          {(() => {
+            const { width: cellWidth, height: cellHeight } = getCellSize();
+            const lines = [];
+
+            // Vertical lines (15 columns)
+            for (let i = 0; i <= GRID_COLS; i++) {
+              const x = i * cellWidth + 20;
+              lines.push(
+                <line
+                  key={`v-${i}`}
+                  x1={x}
+                  y1={80}
+                  x2={x}
+                  y2={80 + GRID_ROWS * cellHeight}
+                  stroke="rgba(255,255,255,0.3)"
+                  strokeWidth="1"
+                />,
+              );
+            }
+
+            // Horizontal lines (5 rows)
+            for (let i = 0; i <= GRID_ROWS; i++) {
+              const y = i * cellHeight + 80;
+              lines.push(
+                <line
+                  key={`h-${i}`}
+                  x1={20}
+                  y1={y}
+                  x2={20 + GRID_COLS * cellWidth}
+                  y2={y}
+                  stroke="rgba(255,255,255,0.3)"
+                  strokeWidth="1"
+                />,
+              );
+            }
+
+            return lines;
+          })()}
         </svg>
       </div>
 
