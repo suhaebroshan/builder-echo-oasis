@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
-import { AppPanel } from "../AppPanel";
+import { ResizableWindow } from "../ResizableWindow";
 import { cn } from "../../lib/utils";
 
 interface Personality {
@@ -60,7 +60,7 @@ export function PersonalityApp() {
   };
 
   return (
-    <AppPanel appId="personality" title="🎭 Personality Manager">
+    <ResizableWindow appId="personality" title="🎭 Personality Manager">
       <div className="p-6 space-y-6 overflow-y-auto">
         <div className="flex justify-between items-center">
           <h2
@@ -204,6 +204,6 @@ export function PersonalityApp() {
           </div>
         )}
       </div>
-    </AppPanel>
+    </ResizableWindow>
   );
 }
