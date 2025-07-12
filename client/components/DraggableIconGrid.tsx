@@ -39,54 +39,60 @@ function DraggableIcon({
   const iconRef = useRef<HTMLButtonElement>(null);
 
   const handleMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault();
     if (!iconRef.current) return;
 
-    const rect = iconRef.current.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left;
-    const offsetY = e.clientY - rect.top;
-
-    setDragOffset({ x: offsetX, y: offsetY });
     setIsDragging(true);
 
+    const startMouseX = e.clientX;
+    const startMouseY = e.clientY;
+    const startGridX = position.gridX;
+    const startGridY = position.gridY;
+
     const handleMouseMove = (e: MouseEvent) => {
+      e.preventDefault();
       const { width: cellWidth, height: cellHeight } = getCellSize();
 
       // Calculate which grid cell the mouse is over
-      const gridX = Math.floor((e.clientX - 20) / cellWidth); // Account for left padding
-      const gridY = Math.floor((e.clientY - 80) / cellHeight); // Account for top padding
+      const gridX = Math.floor((e.clientX - 20) / cellWidth);
+      const gridY = Math.floor((e.clientY - 80) / cellHeight);
 
       // Constrain to grid bounds
       const constrainedGridX = Math.max(0, Math.min(GRID_COLS - 1, gridX));
       const constrainedGridY = Math.max(0, Math.min(GRID_ROWS - 1, gridY));
 
-      // Calculate pixel position based on grid cell
-      const newX = constrainedGridX * cellWidth + 20;
-      const newY = constrainedGridY * cellHeight + 80;
+      // Only update if position changed
+      if (
+        constrainedGridX !== position.gridX ||
+        constrainedGridY !== position.gridY
+      ) {
+        const newX = constrainedGridX * cellWidth + 20;
+        const newY = constrainedGridY * cellHeight + 80;
 
-      const newPosition: IconPosition = {
-        x: newX,
-        y: newY,
-        gridX: constrainedGridX,
-        gridY: constrainedGridY,
-      };
+        const newPosition: IconPosition = {
+          x: newX,
+          y: newY,
+          gridX: constrainedGridX,
+          gridY: constrainedGridY,
+        };
 
-      onPositionChange(appId, newPosition);
+        onPositionChange(appId, newPosition);
+      }
     };
 
-    const handleMouseUp = () => {
+    const handleMouseUp = (e: MouseEvent) => {
       setIsDragging(false);
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
 
-      // Snap to grid
-      const { width: cellWidth, height: cellHeight } = getCellSize();
-      const snappedPosition: IconPosition = {
-        x: position.gridX * cellWidth + 20,
-        y: position.gridY * cellHeight + 80,
-        gridX: position.gridX,
-        gridY: position.gridY,
-      };
-      onPositionChange(appId, snappedPosition);
+      // Check if this was a click (minimal movement) vs drag
+      const deltaX = Math.abs(e.clientX - startMouseX);
+      const deltaY = Math.abs(e.clientY - startMouseY);
+
+      if (deltaX < 5 && deltaY < 5) {
+        // This was a click, not a drag
+        onOpen(appId);
+      }
     };
 
     document.addEventListener("mousemove", handleMouseMove);
