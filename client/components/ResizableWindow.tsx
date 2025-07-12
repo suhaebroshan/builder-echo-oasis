@@ -180,13 +180,11 @@ export function ResizableWindow({
         {/* Title Bar */}
         <div
           ref={dragRef}
-          onMouseDown={(e) =>
-            !windowState.isMaximized && handleMouseDown(e, "drag")
-          }
+          onMouseDown={(e) => !isMaximized && handleMouseDown(e, "drag")}
           className={cn(
             "flex items-center justify-between p-4",
             "border-b border-white/10",
-            !windowState.isMaximized && "cursor-move",
+            !isMaximized && "cursor-move",
           )}
         >
           <h2
