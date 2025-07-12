@@ -216,7 +216,7 @@ export function ResizableWindow({
         </div>
 
         {/* Window Content */}
-        <div className="flex-1 overflow-hidden">{children}</div>
+        <div className="flex-1 overflow-auto">{children}</div>
 
         {/* Resize Handles */}
         {!isMaximized && (
