@@ -158,10 +158,10 @@ export function ResizableWindow({
         windowState.isResizing && "cursor-nw-resize",
       )}
       style={{
-        left: windowState.isMaximized ? 0 : windowState.x,
-        top: windowState.isMaximized ? 0 : windowState.y,
-        width: windowState.isMaximized ? "100vw" : windowState.width,
-        height: windowState.isMaximized ? "100vh" : windowState.height,
+        left: isMaximized ? 0 : windowState.x,
+        top: isMaximized ? 0 : windowState.y,
+        width: isMaximized ? "100vw" : windowState.width,
+        height: isMaximized ? "100vh" : windowState.height,
         zIndex: app.zIndex + 1000,
       }}
     >
