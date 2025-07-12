@@ -132,29 +132,12 @@ export function ResizableWindow({
   };
 
   const handleMaximize = () => {
-    if (windowState.isMaximized) {
-      setWindowState((prev) => ({
-        ...prev,
-        isMaximized: false,
-        x: 100,
-        y: 100,
-        width: 800,
-        height: 600,
-      }));
-    } else {
-      setWindowState((prev) => ({
-        ...prev,
-        isMaximized: true,
-        x: 0,
-        y: 0,
-        width: window.innerWidth,
-        height: window.innerHeight,
-      }));
-    }
+    maximizeApp(appId);
     onMaximize?.();
   };
 
   const handleMinimize = () => {
+    minimizeApp(appId);
     onMinimize?.();
   };
 
