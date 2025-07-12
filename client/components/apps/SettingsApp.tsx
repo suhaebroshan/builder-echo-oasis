@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
-import { AppPanel } from "../AppPanel";
+import { ResizableWindow } from "../ResizableWindow";
 import { cn } from "../../lib/utils";
 
 interface ToggleProps {
