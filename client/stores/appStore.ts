@@ -54,6 +54,7 @@ const defaultApps: Record<AppId, App> = {
     zIndex: 1,
     position: { x: 100, y: 100 },
     size: { width: 800, height: 600 },
+    type: "system",
   },
   settings: {
     id: "settings",
@@ -65,6 +66,7 @@ const defaultApps: Record<AppId, App> = {
     zIndex: 1,
     position: { x: 150, y: 150 },
     size: { width: 700, height: 500 },
+    type: "system",
   },
   personality: {
     id: "personality",
@@ -76,6 +78,7 @@ const defaultApps: Record<AppId, App> = {
     zIndex: 1,
     position: { x: 200, y: 200 },
     size: { width: 600, height: 500 },
+    type: "system",
   },
   memory: {
     id: "memory",
@@ -87,6 +90,7 @@ const defaultApps: Record<AppId, App> = {
     zIndex: 1,
     position: { x: 250, y: 250 },
     size: { width: 700, height: 600 },
+    type: "system",
   },
   calendar: {
     id: "calendar",
@@ -98,6 +102,7 @@ const defaultApps: Record<AppId, App> = {
     zIndex: 1,
     position: { x: 300, y: 300 },
     size: { width: 600, height: 500 },
+    type: "system",
   },
   call: {
     id: "call",
@@ -109,6 +114,37 @@ const defaultApps: Record<AppId, App> = {
     zIndex: 1,
     position: { x: 350, y: 350 },
     size: { width: 500, height: 600 },
+    type: "system",
+  },
+  // Add default personality apps
+  sam: {
+    id: "sam",
+    name: "Sam",
+    icon: "🎨",
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: 1,
+    position: { x: 400, y: 100 },
+    size: { width: 800, height: 600 },
+    type: "personality",
+    phoneNumber: "001",
+    description: "Creative and edgy AI assistant with urban vibes",
+  },
+  nova: {
+    id: "nova",
+    name: "Nova",
+    icon: "🌟",
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: 1,
+    position: { x: 450, y: 150 },
+    size: { width: 800, height: 600 },
+    type: "personality",
+    phoneNumber: "002",
+    description:
+      "Professional and analytical AI assistant with holographic aesthetics",
   },
 };
 
