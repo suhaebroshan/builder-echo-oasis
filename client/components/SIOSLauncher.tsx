@@ -81,25 +81,6 @@ function BottomNavButton({
 
 export function SIOSLauncher() {
   const { theme, toggleTheme } = useTheme();
-  const { apps, openApp, minimizeAll, getOpenApps } = useAppStore();
-
-  const handleBackButton = () => {
-    const openApps = getOpenApps();
-    if (openApps.length > 0) {
-      minimizeAll();
-    }
-  };
-
-  const handleHomeButton = () => {
-    minimizeAll();
-  };
-
-  const handleRecentsButton = () => {
-    // TODO: Show recent apps overlay
-    console.log("Recents clicked - TODO: implement");
-  };
-
-  const backgroundPattern = theme === "sam" ? "bg-graffiti" : "bg-hologram";
 
   return (
     <div
