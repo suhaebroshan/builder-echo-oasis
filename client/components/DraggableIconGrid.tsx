@@ -103,7 +103,6 @@ function DraggableIcon({
     <button
       ref={iconRef}
       onMouseDown={handleMouseDown}
-      onClick={handleClick}
       className={cn(
         "group absolute flex flex-col items-center justify-center",
         "w-16 h-16 sm:w-20 sm:h-20 rounded-2xl transition-all duration-300",
