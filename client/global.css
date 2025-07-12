@@ -42,20 +42,53 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* SIOS Nova Theme (Default) */
+    --nova-blue: 220 100% 60%;
+    --nova-purple: 270 100% 70%;
+    --nova-cyan: 180 100% 60%;
+    --nova-accent: 240 100% 80%;
+
+    /* SIOS Sam Theme */
+    --sam-pink: 330 100% 70%;
+    --sam-black: 0 0% 8%;
+    --sam-gray: 0 0% 40%;
+    --sam-accent: 330 100% 85%;
+
+    /* SIOS System */
+    --sios-panel: 240 10% 10% / 0.8;
+    --sios-glass: 255 255 255 / 0.1;
+    --sios-border: 255 255 255 / 0.2;
+    --sios-glow: 220 100% 60%;
+
+    --glow-color: 59, 130, 246;
+  }
+
+  /* Sam Theme Override */
+  .theme-sam {
+    --sios-glow: 330 100% 70%;
+    --glow-color: 236, 72, 153;
+    --background: 0 0% 5%;
+    --foreground: 330 100% 90%;
+    --primary: 330 100% 70%;
+    --primary-foreground: 0 0% 5%;
+  }
+
+  /* Nova Theme Override */
+  .theme-nova {
+    --sios-glow: 220 100% 60%;
+    --glow-color: 59, 130, 246;
+    --background: 240 10% 3%;
+    --foreground: 220 100% 90%;
+    --primary: 220 100% 60%;
+    --primary-foreground: 240 10% 3%;
   }
 
   .dark {
