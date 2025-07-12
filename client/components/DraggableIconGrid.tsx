@@ -201,7 +201,6 @@ export function DraggableIconGrid() {
       <div className="absolute inset-0 opacity-10 pointer-events-none">
         <svg className="w-full h-full">
           {(() => {
-            const { width: cellWidth, height: cellHeight } = getCellSize();
             const lines = [];
 
             // Vertical lines (15 columns)
