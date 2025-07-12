@@ -175,29 +175,27 @@ export function DraggableIconGrid() {
 
   return (
     <div ref={gridRef} className="relative w-full h-full">
-      {/* Grid overlay (visible during drag) */}
-      {isDraggingAny && (
-        <div className="absolute inset-0 opacity-20">
-          <svg className="w-full h-full">
-            <defs>
-              <pattern
-                id="grid"
-                width={gridSize}
-                height={gridSize}
-                patternUnits="userSpaceOnUse"
-              >
-                <path
-                  d={`M ${gridSize} 0 L 0 0 0 ${gridSize}`}
-                  fill="none"
-                  stroke="rgba(255,255,255,0.3)"
-                  strokeWidth="1"
-                />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid)" />
-          </svg>
-        </div>
-      )}
+      {/* Grid overlay for visual reference */}
+      <div className="absolute inset-0 opacity-5 pointer-events-none">
+        <svg className="w-full h-full">
+          <defs>
+            <pattern
+              id="grid"
+              width={gridSize}
+              height={gridSize}
+              patternUnits="userSpaceOnUse"
+            >
+              <path
+                d={`M ${gridSize} 0 L 0 0 0 ${gridSize}`}
+                fill="none"
+                stroke="rgba(255,255,255,0.5)"
+                strokeWidth="1"
+              />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+        </svg>
+      </div>
 
       {/* App Icons */}
       <div className="relative w-full h-full">
