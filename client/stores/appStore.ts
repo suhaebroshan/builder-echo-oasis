@@ -36,6 +36,11 @@ interface AppStore {
   minimizeAll: () => void;
   getOpenApps: () => App[];
   getMinimizedApps: () => App[];
+  addPersonality: (
+    personality: Omit<App, "isOpen" | "isMinimized" | "isMaximized" | "zIndex">,
+  ) => void;
+  removePersonality: (appId: AppId) => void;
+  getPersonalities: () => App[];
 }
 
 const defaultApps: Record<AppId, App> = {
