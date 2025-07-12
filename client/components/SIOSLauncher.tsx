@@ -1,5 +1,6 @@
 import { useTheme } from "../contexts/ThemeContext";
 import { useAppStore, type AppId } from "../stores/appStore";
+import { BackgroundWallpaper } from "./BackgroundWallpaper";
 import { cn } from "../lib/utils";
 
 interface AppIconProps {
