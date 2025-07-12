@@ -167,10 +167,10 @@ export function SIOSLauncher() {
       </div>
 
       {/* Bottom Navigation */}
-      <div className="relative z-10 flex justify-center items-center p-6 pb-8">
+      <div className="relative z-10 flex justify-center items-center p-4 sm:p-6 pb-6 sm:pb-8">
         <div
           className={cn(
-            "flex items-center gap-6 px-8 py-4 rounded-3xl",
+            "flex items-center gap-4 sm:gap-6 px-6 sm:px-8 py-3 sm:py-4 rounded-3xl",
             "backdrop-blur-xl border border-white/20",
             theme === "sam" ? "bg-sam-black/40" : "bg-white/10 shadow-glass",
           )}
