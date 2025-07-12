@@ -50,7 +50,8 @@ interface RecentsOverlayProps {
 
 function RecentsOverlay({ isVisible, onClose }: RecentsOverlayProps) {
   const { theme } = useTheme();
-  const { apps, openApp, restoreApp, getOpenApps, getMinimizedApps } = useAppStore();
+  const { apps, openApp, restoreApp, getOpenApps, getMinimizedApps } =
+    useAppStore();
   const openApps = getOpenApps();
   const minimizedApps = getMinimizedApps();
   const allRecentApps = [...openApps, ...minimizedApps];
@@ -172,7 +173,7 @@ export function AndroidNavigation() {
     minimizeAll();
   };
 
-    const handleRecentsButton = () => {
+  const handleRecentsButton = () => {
     setShowRecents(true);
   };
 
@@ -203,7 +204,7 @@ export function AndroidNavigation() {
             onClick={handleRecentsButton}
             active={showRecents}
           />
-        </div>
+        </LiquidGlass>
       </div>
 
       {/* Recents Overlay */}
