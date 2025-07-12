@@ -32,19 +32,20 @@ export function ResizableWindow({
   const windowRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<HTMLDivElement>(null);
 
+  const app = apps[appId];
+  const isOpen = app?.isOpen ?? false;
+  const isMinimized = app?.isMinimized ?? false;
+  const isMaximized = app?.isMaximized ?? false;
+
   const [windowState, setWindowState] = useState({
-    x: 0,
-    y: 0,
-    width: 800,
-    height: 600,
-    isMaximized: fullscreen,
+    x: app?.position.x || 0,
+    y: app?.position.y || 0,
+    width: app?.size.width || 800,
+    height: app?.size.height || 600,
     isDragging: false,
     isResizing: false,
     resizeDirection: "",
   });
-
-  const app = apps[appId];
-  const isOpen = app?.isOpen ?? false;
 
   useEffect(() => {
     if (!isOpen || !windowRef.current) return;
