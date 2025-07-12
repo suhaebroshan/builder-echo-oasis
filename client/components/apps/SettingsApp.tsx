@@ -153,9 +153,10 @@ export function SettingsApp() {
     }
   };
 
-  return (
+      return (
     <ResizableWindow appId="settings" title="🎛 Settings">
-      <div className="p-6 space-y-6 overflow-y-auto">
+      <div className="h-full overflow-y-auto">
+        <div className="p-6 space-y-6">
         {/* Theme Section */}
         <section>
           <h2
@@ -306,7 +307,7 @@ export function SettingsApp() {
               </p>
             </div>
           </div>
-        </section>
+                </section>
       </div>
     </ResizableWindow>
   );
