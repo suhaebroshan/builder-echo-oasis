@@ -29,7 +29,9 @@ function DraggableIcon({
   position,
   onPositionChange,
   onOpen,
-  gridSize,
+  getCellSize,
+  GRID_COLS,
+  GRID_ROWS,
 }: DraggableIconProps) {
   const { theme } = useTheme();
   const [isDragging, setIsDragging] = useState(false);
