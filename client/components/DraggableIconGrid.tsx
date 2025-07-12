@@ -75,7 +75,7 @@ function DraggableIcon({
       // Snap to grid
       const snappedPosition: IconPosition = {
         x: position.gridX * gridSize,
-        y: position.gridY * gridSize,
+        y: position.gridY * gridSize + 60, // Account for status bar
         gridX: position.gridX,
         gridY: position.gridY,
       };
