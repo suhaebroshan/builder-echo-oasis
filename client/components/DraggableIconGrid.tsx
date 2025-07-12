@@ -263,7 +263,9 @@ export function DraggableIconGrid() {
                 position={position}
                 onPositionChange={handlePositionChange}
                 onOpen={openApp}
-                gridSize={gridSize}
+                getCellSize={getCellSize}
+                GRID_COLS={GRID_COLS}
+                GRID_ROWS={GRID_ROWS}
               />
             </div>
           );
