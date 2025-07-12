@@ -45,12 +45,21 @@ function DraggableIcon({
     setIsDragging(true);
 
     const handleMouseMove = (e: MouseEvent) => {
-      const gridX = Math.round((e.clientX - offsetX) / gridSize);
-      const gridY = Math.round((e.clientY - offsetY) / gridSize);
+      const newX = Math.max(
+        0,
+        Math.min(window.innerWidth - 80, e.clientX - offsetX),
+      );
+      const newY = Math.max(
+        60,
+        Math.min(window.innerHeight - 200, e.clientY - offsetY),
+      ); // Account for status bar and nav
+
+      const gridX = Math.round(newX / gridSize);
+      const gridY = Math.round((newY - 60) / gridSize); // Adjust for status bar
 
       const newPosition: IconPosition = {
-        x: e.clientX - offsetX,
-        y: e.clientY - offsetY,
+        x: newX,
+        y: newY,
         gridX: Math.max(0, gridX),
         gridY: Math.max(0, gridY),
       };
