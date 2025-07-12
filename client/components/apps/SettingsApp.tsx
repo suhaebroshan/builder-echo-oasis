@@ -155,6 +155,30 @@ export function SettingsApp() {
     }
   };
 
+  const handleWallpaperUpload = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.target.files?.[0];
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const imageUrl = e.target?.result as string;
+        setSettings((prev) => ({ ...prev, customWallpaper: imageUrl }));
+        // Apply the wallpaper immediately
+        document.documentElement.style.setProperty(
+          "--custom-wallpaper",
+          `url(${imageUrl})`,
+        );
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeCustomWallpaper = () => {
+    setSettings((prev) => ({ ...prev, customWallpaper: null }));
+    document.documentElement.style.removeProperty("--custom-wallpaper");
+  };
+
   return (
     <ResizableWindow appId="settings" title="🎛 Settings">
       <div className="h-full overflow-y-auto">
