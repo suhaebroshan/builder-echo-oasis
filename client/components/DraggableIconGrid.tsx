@@ -165,10 +165,7 @@ export function DraggableIconGrid() {
   const isDraggingAny = Object.values(iconPositions).some(() => false); // We'll update this logic
 
   return (
-    <div
-      ref={gridRef}
-      className="relative flex-1 flex items-center justify-center p-4 sm:p-8"
-    >
+    <div ref={gridRef} className="relative w-full h-full">
       {/* Grid overlay (visible during drag) */}
       {isDraggingAny && (
         <div className="absolute inset-0 opacity-20">
