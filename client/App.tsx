@@ -12,20 +12,34 @@ import { CallApp } from "./components/apps/CallApp";
 import { MemoryApp } from "./components/apps/MemoryApp";
 import { PersonalityChatApp } from "./components/apps/PersonalityChatApp";
 
-const App = () => (
-  <ThemeProvider>
+function AppContainer() {
+  const { apps, getPersonalities } = useAppStore();
+  const personalities = getPersonalities();
+
+  return (
     <div className="w-full h-screen overflow-hidden bg-black font-poppins">
       {/* Main SIOS Launcher */}
       <SIOSLauncher />
 
-      {/* App Panels */}
+      {/* System App Panels */}
       <ChatApp />
       <SettingsApp />
       <PersonalityApp />
       <CalendarApp />
       <CallApp />
       <MemoryApp />
+
+      {/* Dynamic Personality Chat Apps */}
+      {personalities.map((personality) => (
+        <PersonalityChatApp key={personality.id} personality={personality} />
+      ))}
     </div>
+  );
+}
+
+const App = () => (
+  <ThemeProvider>
+    <AppContainer />
   </ThemeProvider>
 );
 
