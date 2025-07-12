@@ -182,7 +182,7 @@ export function ResizableWindow({
           ref={dragRef}
           onMouseDown={(e) => !isMaximized && handleMouseDown(e, "drag")}
           className={cn(
-            "flex items-center justify-between p-4",
+            "flex items-center justify-between p-4 flex-shrink-0",
             "border-b border-white/10",
             !isMaximized && "cursor-move",
           )}
