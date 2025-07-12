@@ -112,16 +112,18 @@ function DraggableIcon({
         onMouseDown={handleMouseDown}
         className={cn(
           "w-16 h-16 sm:w-20 sm:h-20 rounded-2xl transition-all duration-300",
-          "backdrop-blur-md border border-white/20 cursor-pointer",
-          "hover:scale-110 active:scale-95 shadow-glass",
+          "backdrop-blur-xl border cursor-pointer relative overflow-hidden",
+          "hover:scale-110 active:scale-95",
           "flex flex-col items-center justify-center",
+          "before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:opacity-50",
+          "after:absolute after:inset-0 after:bg-gradient-to-tr after:from-transparent after:via-white/5 after:to-white/10",
           isDragging && "z-50 scale-110 shadow-glow cursor-grabbing",
           theme === "sam"
-            ? "bg-sam-black/60 hover:bg-sam-pink/20 border-sam-pink/30"
-            : "bg-nova-blue/20 hover:bg-nova-cyan/30 border-nova-cyan/30",
+            ? "bg-sam-black/40 hover:bg-sam-pink/20 border-sam-pink/40 shadow-[0_8px_32px_rgba(236,72,153,0.2)]"
+            : "bg-nova-blue/30 hover:bg-nova-cyan/30 border-nova-cyan/40 shadow-[0_8px_32px_rgba(59,130,246,0.2)]",
         )}
       >
-        <span className="text-xl sm:text-2xl group-hover:scale-110 transition-transform pointer-events-none">
+        <span className="text-xl sm:text-2xl group-hover:scale-110 transition-transform pointer-events-none relative z-10">
           {icon}
         </span>
       </button>
