@@ -17,7 +17,9 @@ interface DraggableIconProps {
   position: IconPosition;
   onPositionChange: (appId: AppId, position: IconPosition) => void;
   onOpen: (appId: AppId) => void;
-  gridSize: number;
+  getCellSize: () => { width: number; height: number; size: number };
+  GRID_COLS: number;
+  GRID_ROWS: number;
 }
 
 function DraggableIcon({
