@@ -13,8 +13,11 @@ export interface App {
   name: string;
   icon: string;
   isOpen: boolean;
+  isMinimized: boolean;
+  isMaximized: boolean;
   zIndex: number;
   position: { x: number; y: number };
+  size: { width: number; height: number };
 }
 
 interface AppStore {
