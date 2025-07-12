@@ -1,0 +1,209 @@
+import { useState } from "react";
+import { useTheme } from "../../contexts/ThemeContext";
+import { AppPanel } from "../AppPanel";
+import { cn } from "../../lib/utils";
+
+interface Personality {
+  id: string;
+  name: string;
+  emoji: string;
+  tone: string;
+  description: string;
+}
+
+export function PersonalityApp() {
+  const { theme } = useTheme();
+  const [personalities, setPersonalities] = useState<Personality[]>([
+    {
+      id: "1",
+      name: "Sam",
+      emoji: "🎭",
+      tone: "Friendly & Creative",
+      description: "Your default AI assistant with a creative edge",
+    },
+    {
+      id: "2",
+      name: "Nova",
+      emoji: "🌟",
+      tone: "Professional & Analytical",
+      description: "Focused on productivity and detailed analysis",
+    },
+  ]);
+
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newPersonality, setNewPersonality] = useState({
+    name: "",
+    emoji: "🤖",
+    tone: "neutral",
+    description: "",
+  });
+
+  const handleAddPersonality = () => {
+    if (newPersonality.name.trim()) {
+      const personality: Personality = {
+        id: Date.now().toString(),
+        ...newPersonality,
+      };
+      setPersonalities((prev) => [...prev, personality]);
+      setNewPersonality({
+        name: "",
+        emoji: "🤖",
+        tone: "neutral",
+        description: "",
+      });
+      setShowAddForm(false);
+    }
+  };
+
+  const handleDeletePersonality = (id: string) => {
+    setPersonalities((prev) => prev.filter((p) => p.id !== id));
+  };
+
+  return (
+    <AppPanel appId="personality" title="🎭 Personality Manager">
+      <div className="p-6 space-y-6 overflow-y-auto">
+        <div className="flex justify-between items-center">
+          <h2
+            className={cn(
+              "text-xl font-semibold",
+              theme === "sam" ? "text-sam-pink" : "text-nova-cyan",
+            )}
+          >
+            AI Personalities
+          </h2>
+          <button
+            onClick={() => setShowAddForm(true)}
+            className={cn(
+              "px-4 py-2 rounded-lg backdrop-blur-md border",
+              "text-sm font-medium transition-colors",
+              theme === "sam"
+                ? "bg-sam-pink/20 border-sam-pink/40 text-sam-pink hover:bg-sam-pink/30"
+                : "bg-nova-blue/20 border-nova-blue/40 text-nova-cyan hover:bg-nova-blue/30",
+            )}
+          >
+            + Add New
+          </button>
+        </div>
+
+        <div className="grid gap-4">
+          {personalities.map((personality) => (
+            <div
+              key={personality.id}
+              className="p-4 rounded-xl backdrop-blur-md bg-white/5 border border-white/10"
+            >
+              <div className="flex items-start justify-between">
+                <div className="flex items-start gap-3">
+                  <span className="text-3xl">{personality.emoji}</span>
+                  <div>
+                    <h3 className="font-semibold text-white">
+                      {personality.name}
+                    </h3>
+                    <p className="text-sm text-white/60">{personality.tone}</p>
+                    <p className="text-sm text-white/40 mt-1">
+                      {personality.description}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <button className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors">
+                    ✏️
+                  </button>
+                  <button
+                    onClick={() => handleDeletePersonality(personality.id)}
+                    className="p-2 rounded-lg bg-red-500/20 hover:bg-red-500/30 transition-colors text-red-400"
+                  >
+                    🗑️
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {showAddForm && (
+          <div
+            className={cn(
+              "p-4 rounded-xl backdrop-blur-xl border",
+              theme === "sam"
+                ? "bg-sam-black/60 border-sam-pink/40"
+                : "bg-gray-900/60 border-nova-blue/40",
+            )}
+          >
+            <h3 className="text-lg font-semibold text-white mb-4">
+              Create New Personality
+            </h3>
+            <div className="space-y-4">
+              <input
+                type="text"
+                placeholder="Personality name"
+                value={newPersonality.name}
+                onChange={(e) =>
+                  setNewPersonality((prev) => ({
+                    ...prev,
+                    name: e.target.value,
+                  }))
+                }
+                className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+              />
+              <input
+                type="text"
+                placeholder="Emoji"
+                value={newPersonality.emoji}
+                onChange={(e) =>
+                  setNewPersonality((prev) => ({
+                    ...prev,
+                    emoji: e.target.value,
+                  }))
+                }
+                className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+              />
+              <input
+                type="text"
+                placeholder="Tone (e.g., Friendly, Professional)"
+                value={newPersonality.tone}
+                onChange={(e) =>
+                  setNewPersonality((prev) => ({
+                    ...prev,
+                    tone: e.target.value,
+                  }))
+                }
+                className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+              />
+              <textarea
+                placeholder="Description"
+                value={newPersonality.description}
+                onChange={(e) =>
+                  setNewPersonality((prev) => ({
+                    ...prev,
+                    description: e.target.value,
+                  }))
+                }
+                className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                rows={3}
+              />
+              <div className="flex gap-2">
+                <button
+                  onClick={handleAddPersonality}
+                  className={cn(
+                    "px-4 py-2 rounded-lg font-medium transition-colors",
+                    theme === "sam"
+                      ? "bg-sam-pink text-white hover:bg-sam-pink/80"
+                      : "bg-nova-blue text-white hover:bg-nova-blue/80",
+                  )}
+                >
+                  Create
+                </button>
+                <button
+                  onClick={() => setShowAddForm(false)}
+                  className="px-4 py-2 rounded-lg bg-gray-600 text-white hover:bg-gray-500 transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </AppPanel>
+  );
+}
