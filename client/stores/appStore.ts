@@ -201,7 +201,9 @@ export const useAppStore = create<AppStore>((set, get) => ({
     const updatedApps = { ...apps };
 
     Object.keys(updatedApps).forEach((key) => {
-      updatedApps[key as AppId].isOpen = false;
+      if (updatedApps[key as AppId].isOpen) {
+        updatedApps[key as AppId].isMinimized = true;
+      }
     });
 
     set({ apps: updatedApps });
@@ -209,6 +211,11 @@ export const useAppStore = create<AppStore>((set, get) => ({
 
   getOpenApps: () => {
     const { apps } = get();
-    return Object.values(apps).filter((app) => app.isOpen);
+    return Object.values(apps).filter((app) => app.isOpen && !app.isMinimized);
+  },
+
+  getMinimizedApps: () => {
+    const { apps } = get();
+    return Object.values(apps).filter((app) => app.isOpen && app.isMinimized);
   },
 }));
