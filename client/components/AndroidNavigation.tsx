@@ -187,10 +187,10 @@ export function AndroidNavigation() {
         <div
           className={cn(
             "flex items-center gap-4 sm:gap-6 px-6 sm:px-8 py-3 sm:py-4 rounded-3xl relative overflow-hidden",
-            "backdrop-blur-xl border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.3)]",
-            "before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:to-transparent before:opacity-60",
-            "after:absolute after:inset-0 after:bg-gradient-to-tr after:from-transparent after:via-white/10 after:to-white/20",
-            theme === "sam" ? "bg-sam-black/50" : "bg-white/15",
+            "backdrop-blur-xl border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.4)]",
+            "bg-white/10",
+            "before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/15 before:to-transparent before:opacity-50",
+            "after:absolute after:inset-0 after:bg-gradient-to-tr after:from-transparent after:via-white/8 after:to-white/15 after:opacity-70",
           )}
         >
           <NavigationButton
