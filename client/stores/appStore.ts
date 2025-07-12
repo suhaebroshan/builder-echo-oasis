@@ -25,9 +25,13 @@ interface AppStore {
   highestZIndex: number;
   openApp: (appId: AppId) => void;
   closeApp: (appId: AppId) => void;
+  minimizeApp: (appId: AppId) => void;
+  maximizeApp: (appId: AppId) => void;
+  restoreApp: (appId: AppId) => void;
   bringToFront: (appId: AppId) => void;
   minimizeAll: () => void;
   getOpenApps: () => App[];
+  getMinimizedApps: () => App[];
 }
 
 const defaultApps: Record<AppId, App> = {
