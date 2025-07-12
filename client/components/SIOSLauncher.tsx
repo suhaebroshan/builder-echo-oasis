@@ -110,23 +110,7 @@ export function SIOSLauncher() {
       )}
     >
       {/* Dynamic Background */}
-      <div className="absolute inset-0 opacity-30">
-        {theme === "sam" ? (
-          <div
-            className="w-full h-full bg-cover bg-center"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='graffiti' x='0' y='0' width='100' height='100' patternUnits='userSpaceOnUse'%3E%3Cpath d='M10 10L20 20M30 5L40 15M60 25L70 35M15 40L25 50M50 50L60 60M80 10L90 20M5 70L15 80M40 75L50 85M70 65L80 75' stroke='%23ec4899' stroke-width='2' opacity='0.6'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100' height='100' fill='url(%23graffiti)'/%3E%3C/svg%3E")`,
-            }}
-          />
-        ) : (
-          <div
-            className="w-full h-full bg-cover bg-center"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='hologram' x='0' y='0' width='100' height='100' patternUnits='userSpaceOnUse'%3E%3Cpath d='M0 0L100 100M0 100L100 0M50 0L50 100M0 50L100 50' stroke='%233b82f6' stroke-width='1' opacity='0.3'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100' height='100' fill='url(%23hologram)'/%3E%3C/svg%3E")`,
-            }}
-          />
-        )}
-      </div>
+      <BackgroundWallpaper />
 
       {/* Status Bar */}
       <div className="relative z-10 flex justify-between items-center p-4 text-white/80">
