@@ -89,14 +89,15 @@ export function PersonalityChatApp({ personality }: PersonalityChatAppProps) {
     scrollToBottom();
   }, [messages]);
 
-  // Switch theme when personality is activated
+  // Switch theme when personality app is first opened
   useEffect(() => {
+    // Only switch theme for Sam and Nova personalities, and only when they don't match
     if (personality.id === "sam" && theme !== "sam") {
       setTheme("sam");
     } else if (personality.id === "nova" && theme !== "nova") {
       setTheme("nova");
     }
-  }, [personality.id]); // Remove theme and setTheme from dependencies to prevent infinite loop
+  }, []); // Empty dependency array - only run once when component mounts
 
   const handleSendMessage = async (content: string) => {
     if (!content.trim()) return;
