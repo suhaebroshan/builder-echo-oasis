@@ -11,7 +11,6 @@ export function SIOSLauncher() {
     <div
       className={cn(
         "relative w-full h-screen overflow-hidden font-poppins",
-        "flex flex-col",
         theme === "sam"
           ? "bg-gradient-to-br from-sam-black via-sam-gray/20 to-sam-black"
           : "bg-gradient-to-br from-gray-900 via-blue-900/30 to-black",
@@ -39,13 +38,15 @@ export function SIOSLauncher() {
         </button>
       </div>
 
-      {/* App Grid */}
-      <div className="relative z-10">
+      {/* App Grid - Full Screen */}
+      <div className="relative z-10 flex-1 pb-24">
         <DraggableIconGrid />
       </div>
 
-      {/* Bottom Navigation */}
-      <AndroidNavigation />
+      {/* Bottom Navigation - Fixed at bottom */}
+      <div className="absolute bottom-0 left-0 right-0 z-20">
+        <AndroidNavigation />
+      </div>
     </div>
   );
 }
