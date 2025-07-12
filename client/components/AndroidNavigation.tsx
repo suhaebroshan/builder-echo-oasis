@@ -50,8 +50,7 @@ interface RecentsOverlayProps {
 
 function RecentsOverlay({ isVisible, onClose }: RecentsOverlayProps) {
   const { theme } = useTheme();
-  const { apps, openApp, restoreApp, getOpenApps, getMinimizedApps } =
-    useAppStore();
+  const { apps, openApp, restoreApp, getOpenApps, getMinimizedApps } = useAppStore();
   const openApps = getOpenApps();
   const minimizedApps = getMinimizedApps();
   const allRecentApps = [...openApps, ...minimizedApps];
@@ -177,15 +176,14 @@ export function AndroidNavigation() {
     setShowRecents(true);
   };
 
-  return (
+      return (
     <>
       <div className="flex justify-center items-center p-4 pb-8">
-        <div
-          className={cn(
-            "flex items-center gap-4 sm:gap-6 px-6 sm:px-8 py-3 sm:py-4 rounded-3xl",
-            "backdrop-blur-xl border border-white/20",
-            theme === "sam" ? "bg-sam-black/40" : "bg-white/10 shadow-glass",
-          )}
+        <LiquidGlass
+          variant="nav"
+          intensity="heavy"
+          animated={true}
+          className="flex items-center gap-4 sm:gap-6 px-6 sm:px-8 py-3 sm:py-4 rounded-3xl"
         >
           <NavigationButton
             icon="←"
