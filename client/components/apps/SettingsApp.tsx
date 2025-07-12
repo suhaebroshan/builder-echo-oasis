@@ -153,7 +153,7 @@ export function SettingsApp() {
     }
   };
 
-    return (
+  return (
     <ResizableWindow appId="settings" title="🎛 Settings">
       <div className="p-6 space-y-6 overflow-y-auto">
         {/* Theme Section */}
@@ -308,6 +308,6 @@ export function SettingsApp() {
           </div>
         </section>
       </div>
-    </AppPanel>
+    </ResizableWindow>
   );
 }
