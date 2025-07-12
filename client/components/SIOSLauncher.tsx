@@ -60,7 +60,7 @@ function BottomNavButton({
     <button
       onClick={onClick}
       className={cn(
-        "flex items-center justify-center w-14 h-14 rounded-full",
+        "flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full",
         "backdrop-blur-md border transition-all duration-300",
         "hover:scale-110 active:scale-95",
         active
@@ -71,7 +71,7 @@ function BottomNavButton({
       )}
       aria-label={label}
     >
-      <span className="text-xl">{icon}</span>
+      <span className="text-lg sm:text-xl">{icon}</span>
     </button>
   );
 }
