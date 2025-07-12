@@ -107,27 +107,24 @@ function DraggableIcon({
         transform: `translate(${position.x}px, ${position.y}px)`,
       }}
     >
-      <LiquidGlass
-        variant="floating"
-        intensity="heavy"
-        animated={!isDragging}
+      <button
+        ref={iconRef}
+        onMouseDown={handleMouseDown}
         className={cn(
           "w-16 h-16 sm:w-20 sm:h-20 rounded-2xl transition-all duration-300",
-          "hover:scale-110 active:scale-95 cursor-pointer",
-          isDragging &&
-            "z-50 scale-110 shadow-glow cursor-grabbing animate-float",
+          "backdrop-blur-md border border-white/20 cursor-pointer",
+          "hover:scale-110 active:scale-95 shadow-glass",
+          "flex flex-col items-center justify-center",
+          isDragging && "z-50 scale-110 shadow-glow cursor-grabbing",
+          theme === "sam"
+            ? "bg-sam-black/60 hover:bg-sam-pink/20 border-sam-pink/30"
+            : "bg-nova-blue/20 hover:bg-nova-cyan/30 border-nova-cyan/30",
         )}
       >
-        <button
-          ref={iconRef}
-          onMouseDown={handleMouseDown}
-          className="w-full h-full flex flex-col items-center justify-center rounded-2xl"
-        >
-          <span className="text-xl sm:text-2xl group-hover:scale-110 transition-transform pointer-events-none">
-            {icon}
-          </span>
-        </button>
-      </LiquidGlass>
+        <span className="text-xl sm:text-2xl group-hover:scale-110 transition-transform pointer-events-none">
+          {icon}
+        </span>
+      </button>
 
       {/* App name label */}
       <span
