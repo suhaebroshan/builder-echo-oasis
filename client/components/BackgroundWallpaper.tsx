@@ -7,24 +7,46 @@ export function BackgroundWallpaper() {
   if (theme === "sam") {
     return (
       <div className="absolute inset-0 overflow-hidden">
-        {/* Animated gradient base */}
-        <div className="absolute inset-0 bg-gradient-to-br from-sam-black via-purple-900/20 to-sam-black" />
+        {/* Dynamic gradient base with multiple layers */}
+        <div className="absolute inset-0 bg-gradient-to-br from-sam-black via-purple-900/30 to-pink-900/20" />
+        <div
+          className="absolute inset-0 bg-gradient-to-tr from-transparent via-sam-pink/10 to-orange-500/20 animate-pulse"
+          style={{ animationDuration: "8s" }}
+        />
 
-        {/* Graffiti-style animated patterns */}
+        {/* Flowing liquid shapes */}
+        <div className="absolute inset-0 opacity-60">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div
+              key={i}
+              className="absolute rounded-full bg-gradient-to-br from-sam-pink/30 to-purple-500/20 blur-xl animate-liquid-flow"
+              style={{
+                width: `${100 + Math.random() * 200}px`,
+                height: `${100 + Math.random() * 200}px`,
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${i * 1.5}s`,
+                animationDuration: `${8 + Math.random() * 4}s`,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Urban graffiti elements */}
         <div className="absolute inset-0 opacity-40">
-          {/* Animated neon lines */}
           <svg
             className="absolute inset-0 w-full h-full"
             viewBox="0 0 1000 1000"
           >
             <defs>
               <linearGradient id="samGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#ec4899" stopOpacity="0.8" />
-                <stop offset="50%" stopColor="#f97316" stopOpacity="0.6" />
-                <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.8" />
+                <stop offset="0%" stopColor="#ec4899" stopOpacity="0.9" />
+                <stop offset="30%" stopColor="#f97316" stopOpacity="0.7" />
+                <stop offset="70%" stopColor="#8b5cf6" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#ec4899" stopOpacity="0.9" />
               </linearGradient>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+              <filter id="neonGlow">
+                <feGaussianBlur stdDeviation="4" result="coloredBlur" />
                 <feMerge>
                   <feMergeNode in="coloredBlur" />
                   <feMergeNode in="SourceGraphic" />
@@ -32,75 +54,70 @@ export function BackgroundWallpaper() {
               </filter>
             </defs>
 
-            {/* Dynamic curved lines */}
-            <path
-              d="M100,200 Q300,100 500,200 T900,200"
-              stroke="url(#samGlow)"
-              strokeWidth="3"
-              fill="none"
-              filter="url(#glow)"
-              className="animate-pulse"
-            />
-            <path
-              d="M0,400 Q200,350 400,400 Q600,450 800,400 Q900,375 1000,400"
-              stroke="url(#samGlow)"
-              strokeWidth="2"
-              fill="none"
-              filter="url(#glow)"
-              className="animate-pulse"
-              style={{ animationDelay: "1s" }}
-            />
-            <path
-              d="M50,600 Q250,550 450,600 T850,600"
-              stroke="url(#samGlow)"
-              strokeWidth="4"
-              fill="none"
-              filter="url(#glow)"
-              className="animate-pulse"
-              style={{ animationDelay: "2s" }}
-            />
+            {/* Dynamic brush strokes */}
+            {Array.from({ length: 8 }).map((_, i) => (
+              <path
+                key={i}
+                d={`M${Math.random() * 1000},${Math.random() * 1000} Q${Math.random() * 1000},${Math.random() * 1000} ${Math.random() * 1000},${Math.random() * 1000}`}
+                stroke="url(#samGlow)"
+                strokeWidth={2 + Math.random() * 4}
+                fill="none"
+                filter="url(#neonGlow)"
+                className="animate-pulse"
+                style={{
+                  animationDelay: `${i * 0.5}s`,
+                  animationDuration: `${3 + Math.random() * 2}s`,
+                }}
+              />
+            ))}
 
-            {/* Floating geometric shapes */}
-            <circle
-              cx="150"
-              cy="150"
-              r="30"
-              fill="url(#samGlow)"
-              opacity="0.3"
-              className="animate-bounce"
-              style={{ animationDuration: "3s" }}
-            />
-            <rect
-              x="750"
-              y="100"
-              width="40"
-              height="40"
-              fill="url(#samGlow)"
-              opacity="0.2"
-              className="animate-bounce"
-              style={{ animationDuration: "4s", animationDelay: "1s" }}
-            />
-            <polygon
-              points="800,700 830,750 770,750"
-              fill="url(#samGlow)"
-              opacity="0.3"
-              className="animate-bounce"
-              style={{ animationDuration: "5s", animationDelay: "2s" }}
-            />
+            {/* Geometric spray paint effects */}
+            {Array.from({ length: 15 }).map((_, i) => (
+              <circle
+                key={i}
+                cx={Math.random() * 1000}
+                cy={Math.random() * 1000}
+                r={5 + Math.random() * 20}
+                fill="url(#samGlow)"
+                opacity={0.2 + Math.random() * 0.3}
+                className="animate-ping"
+                style={{
+                  animationDelay: `${Math.random() * 5}s`,
+                  animationDuration: `${3 + Math.random() * 3}s`,
+                }}
+              />
+            ))}
           </svg>
         </div>
 
-        {/* Particle effect overlay */}
+        {/* Moving light rays */}
         <div className="absolute inset-0 opacity-20">
-          {Array.from({ length: 20 }).map((_, i) => (
+          {Array.from({ length: 3 }).map((_, i) => (
             <div
               key={i}
-              className="absolute w-1 h-1 bg-sam-pink rounded-full animate-ping"
+              className="absolute bg-gradient-to-r from-transparent via-sam-pink/50 to-transparent h-px w-full animate-shimmer"
               style={{
+                top: `${20 + i * 30}%`,
+                animationDelay: `${i * 2}s`,
+                transform: `rotate(${-20 + i * 10}deg)`,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Particle system */}
+        <div className="absolute inset-0 opacity-30">
+          {Array.from({ length: 30 }).map((_, i) => (
+            <div
+              key={i}
+              className="absolute bg-sam-pink rounded-full animate-float"
+              style={{
+                width: `${1 + Math.random() * 3}px`,
+                height: `${1 + Math.random() * 3}px`,
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${2 + Math.random() * 2}s`,
+                animationDelay: `${Math.random() * 5}s`,
+                animationDuration: `${5 + Math.random() * 5}s`,
               }}
             />
           ))}
