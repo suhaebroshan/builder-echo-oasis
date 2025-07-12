@@ -19,27 +19,28 @@ function NavigationButton({
   active = false,
   disabled = false,
 }: NavigationButtonProps) {
+  const { theme } = useTheme();
+
   return (
-    <LiquidGlass
-      variant="nav"
-      intensity="medium"
-      animated={active}
+    <button
+      onClick={onClick}
+      disabled={disabled}
       className={cn(
-        "w-12 h-12 sm:w-14 sm:h-14 rounded-full transition-all duration-300",
+        "flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full",
+        "backdrop-blur-md border transition-all duration-300",
         "hover:scale-110 active:scale-95",
         disabled && "opacity-50 cursor-not-allowed",
-        active && "shadow-glow scale-105",
+        !disabled && "hover:scale-110",
+        active
+          ? theme === "sam"
+            ? "bg-sam-pink/30 border-sam-pink/60 shadow-glow"
+            : "bg-nova-blue/30 border-nova-blue/60 shadow-glow"
+          : "bg-white/10 border-white/20 hover:bg-white/20",
       )}
+      aria-label={label}
     >
-      <button
-        onClick={onClick}
-        disabled={disabled}
-        className="w-full h-full flex items-center justify-center rounded-full"
-        aria-label={label}
-      >
-        <span className="text-lg sm:text-xl">{icon}</span>
-      </button>
-    </LiquidGlass>
+      <span className="text-lg sm:text-xl">{icon}</span>
+    </button>
   );
 }
 
