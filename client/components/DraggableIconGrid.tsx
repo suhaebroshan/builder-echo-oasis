@@ -101,38 +101,47 @@ function DraggableIcon({
   };
 
   return (
-    <button
-      ref={iconRef}
-      onMouseDown={handleMouseDown}
-      className={cn(
-        "group absolute flex flex-col items-center justify-center",
-        "w-16 h-16 sm:w-20 sm:h-20 rounded-2xl transition-all duration-300",
-        "backdrop-blur-md border border-white/20",
-        "hover:scale-110 hover:shadow-glow active:scale-95",
-        "select-none cursor-pointer",
-        isDragging && "z-50 scale-110 shadow-glow cursor-grabbing",
-        theme === "sam"
-          ? "bg-sam-black/60 hover:bg-sam-pink/20 hover:border-sam-pink/50"
-          : "bg-nova-blue/20 hover:bg-nova-cyan/30 hover:border-nova-cyan/60",
-      )}
+    <div
+      className="absolute select-none group"
       style={{
         transform: `translate(${position.x}px, ${position.y}px)`,
       }}
     >
-      <span className="text-xl sm:text-2xl mb-1 group-hover:scale-110 transition-transform pointer-events-none">
-        {icon}
-      </span>
+      <LiquidGlass
+        variant="floating"
+        intensity="heavy"
+        animated={!isDragging}
+        className={cn(
+          "w-16 h-16 sm:w-20 sm:h-20 rounded-2xl transition-all duration-300",
+          "hover:scale-110 active:scale-95 cursor-pointer",
+          isDragging &&
+            "z-50 scale-110 shadow-glow cursor-grabbing animate-float",
+        )}
+      >
+        <button
+          ref={iconRef}
+          onMouseDown={handleMouseDown}
+          className="w-full h-full flex flex-col items-center justify-center rounded-2xl"
+        >
+          <span className="text-xl sm:text-2xl group-hover:scale-110 transition-transform pointer-events-none">
+            {icon}
+          </span>
+        </button>
+      </LiquidGlass>
+
+      {/* App name label */}
       <span
         className={cn(
-          "absolute -bottom-6 sm:-bottom-8 text-xs font-medium opacity-0",
-          "group-hover:opacity-100 transition-opacity duration-200",
-          "text-white drop-shadow-lg text-center max-w-20 pointer-events-none",
+          "absolute -bottom-6 sm:-bottom-8 left-1/2 transform -translate-x-1/2",
+          "text-xs font-medium opacity-0 group-hover:opacity-100",
+          "transition-opacity duration-200 text-white drop-shadow-lg",
+          "text-center max-w-20 pointer-events-none whitespace-nowrap",
           !isDragging && "group-hover:opacity-100",
         )}
       >
         {name}
       </span>
-    </button>
+    </div>
   );
 }
 
