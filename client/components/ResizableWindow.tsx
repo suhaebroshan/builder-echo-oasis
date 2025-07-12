@@ -27,7 +27,8 @@ export function ResizableWindow({
   onClose,
 }: ResizableWindowProps) {
   const { theme } = useTheme();
-  const { apps, closeApp, bringToFront } = useAppStore();
+  const { apps, closeApp, minimizeApp, maximizeApp, restoreApp, bringToFront } =
+    useAppStore();
   const windowRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<HTMLDivElement>(null);
 
