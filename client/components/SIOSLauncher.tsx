@@ -1,7 +1,7 @@
 import { useTheme } from "../contexts/ThemeContext";
-import { useAppStore, type AppId } from "../stores/appStore";
 import { BackgroundWallpaper } from "./BackgroundWallpaper";
 import { DraggableIconGrid } from "./DraggableIconGrid";
+import { AndroidNavigation } from "./AndroidNavigation";
 import { cn } from "../lib/utils";
 
 interface AppIconProps {
