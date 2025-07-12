@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
-import { AppPanel } from "../AppPanel";
+import { ResizableWindow } from "../ResizableWindow";
 import { cn } from "../../lib/utils";
 
 export function CallApp() {
@@ -37,7 +37,7 @@ export function CallApp() {
   };
 
   return (
-    <AppPanel appId="call" title="📞 Call AI">
+    <ResizableWindow appId="call" title="📞 Call AI">
       <div className="p-6 flex flex-col items-center justify-center h-full text-center">
         {!isCallActive ? (
           <>
@@ -95,6 +95,6 @@ export function CallApp() {
           </p>
         </div>
       </div>
-    </AppPanel>
+    </ResizableWindow>
   );
 }
