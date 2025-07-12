@@ -126,17 +126,27 @@ export function DraggableIconGrid() {
     Partial<Record<AppId, IconPosition>>
   >({});
   const gridRef = useRef<HTMLDivElement>(null);
-  const gridSize = 100; // Size of each grid cell
+  const gridSize = 80; // Smaller grid for more granular positioning
 
-  // Initialize icon positions
+  // Initialize icon positions across the full screen
   useEffect(() => {
     const initialPositions: Partial<Record<AppId, IconPosition>> = {};
-    Object.keys(apps).forEach((appId, index) => {
-      const row = Math.floor(index / 3);
-      const col = index % 3;
+    const appIds = Object.keys(apps);
+
+    // Calculate grid dimensions based on screen size
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight - 200; // Account for status bar and nav
+    const cols = Math.floor(screenWidth / gridSize);
+    const rows = Math.floor(screenHeight / gridSize);
+
+    appIds.forEach((appId, index) => {
+      // Spread icons across the available space more naturally
+      const col = (index * 2) % cols; // Space them out more
+      const row = Math.floor((index * 2) / cols);
+
       initialPositions[appId as AppId] = {
-        x: col * gridSize + 50,
-        y: row * gridSize + 50,
+        x: col * gridSize + 40,
+        y: row * gridSize + 40,
         gridX: col,
         gridY: row,
       };
