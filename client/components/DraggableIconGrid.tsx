@@ -123,14 +123,14 @@ function DraggableIcon({
 export function DraggableIconGrid() {
   const { apps, openApp } = useAppStore();
   const [iconPositions, setIconPositions] = useState<
-    Record<AppId, IconPosition>
+    Partial<Record<AppId, IconPosition>>
   >({});
   const gridRef = useRef<HTMLDivElement>(null);
   const gridSize = 100; // Size of each grid cell
 
   // Initialize icon positions
   useEffect(() => {
-    const initialPositions: Record<AppId, IconPosition> = {};
+    const initialPositions: Partial<Record<AppId, IconPosition>> = {};
     Object.keys(apps).forEach((appId, index) => {
       const row = Math.floor(index / 3);
       const col = index % 3;
