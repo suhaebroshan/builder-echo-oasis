@@ -50,8 +50,11 @@ interface RecentsOverlayProps {
 
 function RecentsOverlay({ isVisible, onClose }: RecentsOverlayProps) {
   const { theme } = useTheme();
-  const { apps, openApp, getOpenApps } = useAppStore();
+  const { apps, openApp, restoreApp, getOpenApps, getMinimizedApps } =
+    useAppStore();
   const openApps = getOpenApps();
+  const minimizedApps = getMinimizedApps();
+  const allRecentApps = [...openApps, ...minimizedApps];
 
   if (!isVisible) return null;
 
