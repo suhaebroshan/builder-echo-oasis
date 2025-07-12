@@ -6,7 +6,8 @@ export type AppId =
   | "personality"
   | "memory"
   | "calendar"
-  | "call";
+  | "call"
+  | string; // Allow custom personality IDs
 
 export interface App {
   id: AppId;
