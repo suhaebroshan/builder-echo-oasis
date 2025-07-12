@@ -219,7 +219,7 @@ export function ResizableWindow({
         <div className="flex-1 overflow-hidden">{children}</div>
 
         {/* Resize Handles */}
-        {!windowState.isMaximized && (
+        {!isMaximized && (
           <>
             {/* Corner Handles */}
             <div
