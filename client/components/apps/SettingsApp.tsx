@@ -146,6 +146,13 @@ export function SettingsApp() {
     hapticFeedback: true,
     lowPowerMode: false,
     analyticsEnabled: false,
+    // New AI settings
+    defaultPersonality: "sam",
+    aiResponseSpeed: "normal",
+    streamingEnabled: true,
+    autoTTS: false,
+    voiceInputEnabled: true,
+    wakeUpPersonality: "sam",
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -486,6 +493,81 @@ export function SettingsApp() {
                 </button>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* AI Assistant Section */}
+        <section>
+          <h2
+            className={cn(
+              "text-xl font-semibold mb-4",
+              theme === "sam" ? "text-sam-pink" : "text-nova-cyan",
+            )}
+          >
+            AI Assistant
+          </h2>
+          <div className="space-y-4">
+            <Dropdown
+              label="Default Personality"
+              description="Choose the default AI personality for new chats"
+              value={settings.defaultPersonality}
+              options={[
+                { value: "sam", label: "Sam (Urban & Creative)" },
+                { value: "nova", label: "Nova (Professional & Analytical)" },
+              ]}
+              onChange={(value) =>
+                setSettings((prev) => ({ ...prev, defaultPersonality: value }))
+              }
+              icon="🤖"
+            />
+            <Dropdown
+              label="Response Speed"
+              description="Control how fast the AI responds"
+              value={settings.aiResponseSpeed}
+              options={[
+                { value: "fast", label: "Fast" },
+                { value: "normal", label: "Normal" },
+                { value: "detailed", label: "Detailed" },
+              ]}
+              onChange={(value) =>
+                setSettings((prev) => ({ ...prev, aiResponseSpeed: value }))
+              }
+              icon="⚡"
+            />
+            <Toggle
+              label="Streaming Responses"
+              description="See AI responses as they're being generated"
+              checked={settings.streamingEnabled}
+              onChange={handleToggle("streamingEnabled")}
+              icon="📝"
+            />
+            <Toggle
+              label="Auto Text-to-Speech"
+              description="Automatically speak AI responses"
+              checked={settings.autoTTS}
+              onChange={handleToggle("autoTTS")}
+              icon="🔊"
+            />
+            <Toggle
+              label="Voice Input"
+              description="Enable microphone for voice commands"
+              checked={settings.voiceInputEnabled}
+              onChange={handleToggle("voiceInputEnabled")}
+              icon="🎤"
+            />
+            <Dropdown
+              label="Wake-up Personality"
+              description="Default personality for alarms and wake-up calls"
+              value={settings.wakeUpPersonality}
+              options={[
+                { value: "sam", label: "Sam (Energetic wake-ups)" },
+                { value: "nova", label: "Nova (Professional wake-ups)" },
+              ]}
+              onChange={(value) =>
+                setSettings((prev) => ({ ...prev, wakeUpPersonality: value }))
+              }
+              icon="⏰"
+            />
           </div>
         </section>
 
