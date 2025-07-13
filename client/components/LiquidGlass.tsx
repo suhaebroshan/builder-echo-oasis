@@ -20,7 +20,8 @@ export function LiquidGlass({
   const { theme } = useTheme();
 
   const getGlassStyles = () => {
-    const baseStyles = "relative overflow-hidden";
+    const baseStyles =
+      variant === "panel" ? "relative" : "relative overflow-hidden";
 
     const intensityStyles = {
       light: "backdrop-blur-[2px] bg-white/3",
