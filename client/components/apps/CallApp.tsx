@@ -38,7 +38,7 @@ export function CallApp() {
     const aiAssistant: Contact = {
       id: "ai-assistant",
       name: "AI Assistant",
-      phoneNumber: "+1-AI-ASSIST",
+      phoneNumber: "003",
       icon: "🤖",
       type: "personality" as const,
     };
