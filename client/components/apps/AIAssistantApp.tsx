@@ -2,6 +2,9 @@ import { useState, useRef, useEffect } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { ResizableWindow } from "../ResizableWindow";
 import { cn } from "../../lib/utils";
+import { openRouterService } from "../../services/openrouter";
+import { elevenLabsService } from "../../services/elevenlabs";
+import { notificationService } from "../../services/notifications";
 
 interface Message {
   id: string;
@@ -84,42 +87,56 @@ export function AIAssistantApp() {
     scrollToBottom();
   }, [messages]);
 
-  const simulateAIResponse = (userMessage: string) => {
+  const getAIResponse = async (userMessage: string) => {
     setIsTyping(true);
 
-    setTimeout(
-      () => {
-        const responses = [
-          "I understand you're asking about: " +
-            userMessage +
-            ". Let me help you with that.",
-          "That's an interesting question! Here's what I think about: " +
-            userMessage,
-          "Based on your input '" +
-            userMessage +
-            "', I can provide several insights...",
-          "Let me break down your request about '" +
-            userMessage +
-            "' step by step.",
-          "I'd be happy to help with " + userMessage + ". Here's my analysis:",
-        ];
+    try {
+      // Convert messages to OpenRouter format
+      const chatHistory = messages
+        .filter((m) => m.type !== "system")
+        .map((m) => ({
+          role:
+            m.sender === "user" ? ("user" as const) : ("assistant" as const),
+          content: m.text,
+        }));
 
-        const response =
-          responses[Math.floor(Math.random() * responses.length)];
+      // Add current user message
+      chatHistory.push({ role: "user", content: userMessage });
 
-        const newMessage: Message = {
-          id: Date.now().toString(),
-          text: response,
-          sender: "ai",
-          timestamp: new Date(),
-          type: "text",
-        };
+      // Get AI response (use general assistant personality)
+      const response = await openRouterService.sendChatMessage(chatHistory);
 
-        setMessages((prev) => [...prev, newMessage]);
-        setIsTyping(false);
-      },
-      1000 + Math.random() * 2000,
-    );
+      const newMessage: Message = {
+        id: Date.now().toString(),
+        text: response,
+        sender: "ai",
+        timestamp: new Date(),
+        type: "text",
+      };
+
+      setMessages((prev) => [...prev, newMessage]);
+
+      // Show notification if window is not focused
+      if (!document.hasFocus()) {
+        await notificationService.showAIResponse("AI Assistant", response, () =>
+          window.focus(),
+        );
+      }
+    } catch (error) {
+      console.error("AI response error:", error);
+
+      const errorMessage: Message = {
+        id: Date.now().toString(),
+        text: "I'm having trouble connecting right now. Please try again!",
+        sender: "ai",
+        timestamp: new Date(),
+        type: "text",
+      };
+
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsTyping(false);
+    }
   };
 
   const handleSendMessage = () => {
@@ -134,7 +151,7 @@ export function AIAssistantApp() {
     };
 
     setMessages((prev) => [...prev, userMessage]);
-    simulateAIResponse(inputText);
+    await getAIResponse(inputText);
     setInputText("");
   };
 
