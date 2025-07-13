@@ -11,6 +11,7 @@ import { CalendarApp } from "./components/apps/CalendarApp";
 import { CallApp } from "./components/apps/CallApp";
 import { MemoryApp } from "./components/apps/MemoryApp";
 import { PersonalityChatApp } from "./components/apps/PersonalityChatApp";
+import { AIAssistantApp } from "./components/apps/AIAssistantApp";
 
 function AppContainer() {
   const { apps, getPersonalities } = useAppStore();
@@ -28,6 +29,7 @@ function AppContainer() {
       <CalendarApp />
       <CallApp />
       <MemoryApp />
+      <AIAssistantApp />
 
       {/* Dynamic Personality Chat Apps */}
       {personalities.map((personality) => (
