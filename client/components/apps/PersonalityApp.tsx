@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
+import { useAppStore } from "../../stores/appStore";
 import { ResizableWindow } from "../ResizableWindow";
 import { cn } from "../../lib/utils";
 
@@ -15,26 +16,16 @@ interface Personality {
 
 export function PersonalityApp() {
   const { theme } = useTheme();
-  const [personalities, setPersonalities] = useState<Personality[]>([
-    {
-      id: "1",
-      name: "Sam",
-      emoji: "🎭",
-      tone: "Friendly & Creative",
-      description: "Your default AI assistant with a creative edge",
-      phoneNumber: "+1-AI-SAM-CHAT",
-      themeColor: "#ec4899",
-    },
-    {
-      id: "2",
-      name: "Nova",
-      emoji: "🌟",
-      tone: "Professional & Analytical",
-      description: "Focused on productivity and detailed analysis",
-      phoneNumber: "+1-AI-NOVA-PRO",
-      themeColor: "#3b82f6",
-    },
-  ]);
+  const { addPersonality, removePersonality, getPersonalities } = useAppStore();
+  const personalities = getPersonalities().map((app) => ({
+    id: app.id,
+    name: app.name,
+    emoji: app.icon,
+    tone: app.description || "AI Assistant",
+    description: app.description || "Custom AI personality",
+    phoneNumber: app.phoneNumber || "+1-AI-CUSTOM",
+    themeColor: "#6366f1",
+  }));
 
   const [showAddForm, setShowAddForm] = useState(false);
   const [newPersonality, setNewPersonality] = useState({
@@ -48,11 +39,24 @@ export function PersonalityApp() {
 
   const handleAddPersonality = () => {
     if (newPersonality.name.trim()) {
-      const personality: Personality = {
-        id: Date.now().toString(),
-        ...newPersonality,
-      };
-      setPersonalities((prev) => [...prev, personality]);
+      const personalityId = `personality-${Date.now()}`;
+
+      // Add to app store as a usable app
+      addPersonality({
+        id: personalityId,
+        name: newPersonality.name,
+        icon: newPersonality.emoji,
+        position: {
+          x: 100 + Math.random() * 300,
+          y: 100 + Math.random() * 200,
+        },
+        size: { width: 800, height: 600 },
+        phoneNumber:
+          newPersonality.phoneNumber ||
+          `+1-AI-${newPersonality.name.toUpperCase().replace(/\s+/g, "-")}`,
+        description: newPersonality.description,
+      });
+
       setNewPersonality({
         name: "",
         emoji: "🤖",
@@ -66,7 +70,9 @@ export function PersonalityApp() {
   };
 
   const handleDeletePersonality = (id: string) => {
-    setPersonalities((prev) => prev.filter((p) => p.id !== id));
+    // Don't delete default Sam and Nova personalities
+    if (id === "sam" || id === "nova") return;
+    removePersonality(id);
   };
 
   return (
