@@ -148,3 +148,42 @@
     @apply bg-black text-foreground font-poppins;
   }
 }
+
+@layer utilities {
+  /* 3D Transform Utilities */
+  .perspective-500 {
+    perspective: 500px;
+  }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .perspective-1500 {
+    perspective: 1500px;
+  }
+
+  .transform-gpu {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .rotate-x-5 {
+    transform: rotateX(5deg);
+  }
+
+  .rotate-x-8 {
+    transform: rotateX(8deg);
+  }
+
+  .rotate-y-5 {
+    transform: rotateY(5deg);
+  }
+
+  .rotate-y-8 {
+    transform: rotateY(8deg);
+  }
+
+  .rotate-3d {
+    transform: rotateX(5deg) rotateY(5deg);
+  }
+}
