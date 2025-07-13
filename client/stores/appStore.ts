@@ -7,6 +7,7 @@ export type AppId =
   | "memory"
   | "calendar"
   | "call"
+  | "ai-assistant"
   | string; // Allow custom personality IDs
 
 export interface App {
@@ -114,6 +115,18 @@ const defaultApps: Record<AppId, App> = {
     zIndex: 1,
     position: { x: 350, y: 350 },
     size: { width: 500, height: 600 },
+    type: "system",
+  },
+  "ai-assistant": {
+    id: "ai-assistant",
+    name: "AI Assistant",
+    icon: "🤖",
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: 1,
+    position: { x: 400, y: 400 },
+    size: { width: 900, height: 700 },
     type: "system",
   },
   // Add default personality apps
