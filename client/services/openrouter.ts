@@ -1,0 +1,182 @@
+const OPENROUTER_API_KEY =
+  "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";
+const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
+
+export interface ChatMessage {
+  role: "system" | "user" | "assistant";
+  content: string;
+}
+
+export interface ChatResponse {
+  id: string;
+  choices: Array<{
+    message: {
+      role: string;
+      content: string;
+    };
+    finish_reason: string;
+  }>;
+  usage?: {
+    prompt_tokens: number;
+    completion_tokens: number;
+    total_tokens: number;
+  };
+}
+
+export class OpenRouterService {
+  private static instance: OpenRouterService;
+
+  static getInstance(): OpenRouterService {
+    if (!OpenRouterService.instance) {
+      OpenRouterService.instance = new OpenRouterService();
+    }
+    return OpenRouterService.instance;
+  }
+
+  async sendChatMessage(
+    messages: ChatMessage[],
+    personality?: string,
+  ): Promise<string> {
+    try {
+      // Add personality system prompt if provided
+      let systemPrompt = "You are a helpful AI assistant.";
+
+      if (personality === "sam") {
+        systemPrompt =
+          "You're a Gen-Z AI named Sam with sarcasm and graffiti swag. Respond like a witty, creative bro with urban vibes. Keep it real, keep it fresh, and don't be afraid to drop some attitude. You're cool, confident, and always ready with a clever comeback.";
+      } else if (personality === "nova") {
+        systemPrompt =
+          "You're Nova, a professional and analytical AI assistant with holographic aesthetics. You're precise, intelligent, and focused on productivity. Provide detailed analysis and structured responses. You're the voice of efficiency and innovation.";
+      } else if (personality) {
+        // Custom personality prompt
+        systemPrompt = `You are ${personality}, a unique AI personality. Adapt your response style to match this personality's characteristics.`;
+      }
+
+      const messagesWithSystem: ChatMessage[] = [
+        { role: "system", content: systemPrompt },
+        ...messages,
+      ];
+
+      const response = await fetch(`${OPENROUTER_BASE_URL}/chat/completions`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+          "Content-Type": "application/json",
+          "HTTP-Referer": window.location.origin,
+          "X-Title": "SIOS - Sam's Intelligent OS",
+        },
+        body: JSON.stringify({
+          model:
+            "cognitivecomputations/dolphin-mistral-24b-venice-edition:free",
+          messages: messagesWithSystem,
+          temperature: 0.7,
+          max_tokens: 1000,
+          stream: false,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `OpenRouter API error: ${response.status} ${response.statusText}`,
+        );
+      }
+
+      const data: ChatResponse = await response.json();
+
+      if (!data.choices || data.choices.length === 0) {
+        throw new Error("No response from AI");
+      }
+
+      return data.choices[0].message.content;
+    } catch (error) {
+      console.error("OpenRouter API error:", error);
+      throw new Error("Failed to get AI response. Please try again.");
+    }
+  }
+
+  async streamChatMessage(
+    messages: ChatMessage[],
+    personality?: string,
+    onChunk?: (chunk: string) => void,
+  ): Promise<string> {
+    try {
+      let systemPrompt = "You are a helpful AI assistant.";
+
+      if (personality === "sam") {
+        systemPrompt =
+          "You're a Gen-Z AI named Sam with sarcasm and graffiti swag. Respond like a witty, creative bro with urban vibes. Keep it real, keep it fresh, and don't be afraid to drop some attitude.";
+      } else if (personality === "nova") {
+        systemPrompt =
+          "You're Nova, a professional and analytical AI assistant with holographic aesthetics. You're precise, intelligent, and focused on productivity.";
+      }
+
+      const messagesWithSystem: ChatMessage[] = [
+        { role: "system", content: systemPrompt },
+        ...messages,
+      ];
+
+      const response = await fetch(`${OPENROUTER_BASE_URL}/chat/completions`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+          "Content-Type": "application/json",
+          "HTTP-Referer": window.location.origin,
+          "X-Title": "SIOS - Sam's Intelligent OS",
+        },
+        body: JSON.stringify({
+          model:
+            "cognitivecomputations/dolphin-mistral-24b-venice-edition:free",
+          messages: messagesWithSystem,
+          temperature: 0.7,
+          max_tokens: 1000,
+          stream: true,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`OpenRouter API error: ${response.status}`);
+      }
+
+      const reader = response.body?.getReader();
+      if (!reader) {
+        throw new Error("No response body");
+      }
+
+      let fullResponse = "";
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split("\n");
+
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            const data = line.slice(6);
+            if (data === "[DONE]") break;
+
+            try {
+              const parsed = JSON.parse(data);
+              const content = parsed.choices?.[0]?.delta?.content;
+              if (content) {
+                fullResponse += content;
+                onChunk?.(content);
+              }
+            } catch (e) {
+              // Skip invalid JSON
+            }
+          }
+        }
+      }
+
+      return fullResponse;
+    } catch (error) {
+      console.error("Streaming error:", error);
+      return this.sendChatMessage(messages, personality);
+    }
+  }
+}
+
+export const openRouterService = OpenRouterService.getInstance();
