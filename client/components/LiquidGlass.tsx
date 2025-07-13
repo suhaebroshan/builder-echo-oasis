@@ -23,41 +23,31 @@ export function LiquidGlass({
     const baseStyles = "relative overflow-hidden";
 
     const intensityStyles = {
-      light: "backdrop-blur-sm bg-white/5",
-      medium: "backdrop-blur-md bg-white/10",
-      heavy: "backdrop-blur-xl bg-white/15",
+      light: "backdrop-blur-[2px] bg-white/3",
+      medium: "backdrop-blur-[4px] bg-white/5",
+      heavy: "backdrop-blur-[6px] bg-white/8",
     };
 
     const variantStyles = {
       primary: cn(
         "border border-white/20 shadow-glass",
-        theme === "sam"
-          ? "bg-gradient-to-br from-sam-pink/10 to-sam-black/40 border-sam-pink/30"
-          : "bg-gradient-to-br from-nova-blue/10 to-nova-purple/20 border-nova-cyan/30",
+        "bg-white/5 border-white/25",
       ),
       secondary: cn(
         "border border-white/15 shadow-lg",
-        theme === "sam"
-          ? "bg-gradient-to-br from-sam-black/60 to-sam-gray/30 border-sam-pink/20"
-          : "bg-gradient-to-br from-gray-900/60 to-blue-900/30 border-nova-blue/20",
+        "bg-white/3 border-white/20",
       ),
       floating: cn(
         "border border-white/25 shadow-glow-lg",
-        theme === "sam"
-          ? "bg-gradient-to-br from-sam-pink/15 to-sam-black/50 border-sam-pink/40"
-          : "bg-gradient-to-br from-nova-cyan/15 to-nova-blue/30 border-nova-cyan/40",
+        "bg-white/4 border-white/30",
       ),
       nav: cn(
         "border border-white/20 shadow-glass",
-        theme === "sam"
-          ? "bg-gradient-to-r from-sam-black/70 to-sam-gray/40 border-sam-pink/25"
-          : "bg-gradient-to-r from-gray-900/70 to-blue-900/40 border-nova-blue/25",
+        "bg-white/6 border-white/25",
       ),
       panel: cn(
         "border border-white/30 shadow-2xl",
-        theme === "sam"
-          ? "bg-gradient-to-br from-sam-black/80 to-sam-pink/20 border-sam-pink/50"
-          : "bg-gradient-to-br from-gray-900/80 to-nova-blue/20 border-nova-cyan/50",
+        "bg-white/8 border-white/35",
       ),
     };
 
@@ -83,9 +73,7 @@ export function LiquidGlass({
             <div
               className={cn(
                 "absolute inset-0 animate-pulse",
-                theme === "sam"
-                  ? "bg-gradient-to-br from-sam-pink/20 via-transparent to-sam-pink/10"
-                  : "bg-gradient-to-br from-nova-cyan/20 via-transparent to-nova-blue/10",
+                "bg-gradient-to-br from-white/10 via-transparent to-white/5",
               )}
             />
           </div>
@@ -97,7 +85,7 @@ export function LiquidGlass({
                 key={i}
                 className={cn(
                   "absolute w-8 h-8 rounded-full opacity-20 animate-bounce",
-                  theme === "sam" ? "bg-sam-pink" : "bg-nova-cyan",
+                  "bg-white",
                 )}
                 style={{
                   left: `${20 + i * 30}%`,
