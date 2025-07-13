@@ -23,7 +23,7 @@ export function PersonalityApp() {
     emoji: app.icon,
     tone: app.description || "AI Assistant",
     description: app.description || "Custom AI personality",
-    phoneNumber: app.phoneNumber || "+1-AI-CUSTOM",
+    phoneNumber: app.phoneNumber || "000",
     themeColor: "#6366f1",
   }));
 
@@ -40,6 +40,10 @@ export function PersonalityApp() {
   const handleAddPersonality = () => {
     if (newPersonality.name.trim()) {
       const personalityId = `personality-${Date.now()}`;
+      const existingPersonalities = getPersonalities();
+      const nextNumber = (existingPersonalities.length + 4)
+        .toString()
+        .padStart(3, "0"); // Start from 004
 
       // Add to app store as a usable app
       addPersonality({
@@ -51,9 +55,7 @@ export function PersonalityApp() {
           y: 100 + Math.random() * 200,
         },
         size: { width: 800, height: 600 },
-        phoneNumber:
-          newPersonality.phoneNumber ||
-          `+1-AI-${newPersonality.name.toUpperCase().replace(/\s+/g, "-")}`,
+        phoneNumber: newPersonality.phoneNumber || nextNumber,
         description: newPersonality.description,
       });
 
