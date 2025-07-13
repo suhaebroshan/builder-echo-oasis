@@ -172,7 +172,7 @@ export function ResizableWindow({
         intensity="heavy"
         animated={true}
         className={cn(
-          "relative flex flex-col w-full h-full",
+          "relative flex flex-col w-full h-full overflow-visible",
           isMaximized ? "rounded-none" : "rounded-2xl sm:rounded-3xl",
           className,
         )}
