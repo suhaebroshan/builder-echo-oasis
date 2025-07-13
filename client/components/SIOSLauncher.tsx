@@ -46,10 +46,8 @@ export function SIOSLauncher() {
         <DraggableIconGrid />
       </div>
 
-      {/* Bottom Navigation - Fixed at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 z-20">
-        <AndroidNavigation />
-      </div>
+      {/* Bottom Navigation - Now positioned fixed in component */}
+      <AndroidNavigation />
     </div>
   );
 }
