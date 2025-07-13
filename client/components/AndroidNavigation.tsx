@@ -183,10 +183,10 @@ export function AndroidNavigation() {
 
   return (
     <>
-      <div className="flex justify-center items-center p-4 pb-8">
+      <div className="fixed bottom-0 left-0 right-0 z-[9999] flex justify-center items-center p-4 pb-8 pointer-events-none">
         <div
           className={cn(
-            "flex items-center gap-4 sm:gap-6 px-6 sm:px-8 py-3 sm:py-4 rounded-3xl relative overflow-hidden",
+            "flex items-center gap-4 sm:gap-6 px-6 sm:px-8 py-3 sm:py-4 rounded-3xl relative overflow-hidden pointer-events-auto",
             "backdrop-blur-xl border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.4)]",
             "bg-white/10",
             "before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/15 before:to-transparent before:opacity-50",
