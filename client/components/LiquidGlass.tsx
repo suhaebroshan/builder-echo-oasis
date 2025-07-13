@@ -23,9 +23,9 @@ export function LiquidGlass({
     const baseStyles = "relative overflow-hidden";
 
     const intensityStyles = {
-      light: "backdrop-blur-[2px] bg-white/3",
-      medium: "backdrop-blur-[4px] bg-white/5",
-      heavy: "backdrop-blur-[6px] bg-white/8",
+      light: "backdrop-blur-sm bg-white/8",
+      medium: "backdrop-blur-md bg-white/12",
+      heavy: "backdrop-blur-xl bg-white/15",
     };
 
     const variantStyles = {
@@ -47,7 +47,7 @@ export function LiquidGlass({
       ),
       panel: cn(
         "border border-white/30 shadow-2xl",
-        "bg-white/8 border-white/35",
+        "bg-white/12 border-white/35",
       ),
     };
 
