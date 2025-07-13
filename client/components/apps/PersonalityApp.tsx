@@ -9,6 +9,8 @@ interface Personality {
   emoji: string;
   tone: string;
   description: string;
+  phoneNumber: string;
+  themeColor: string;
 }
 
 export function PersonalityApp() {
@@ -20,6 +22,8 @@ export function PersonalityApp() {
       emoji: "🎭",
       tone: "Friendly & Creative",
       description: "Your default AI assistant with a creative edge",
+      phoneNumber: "+1-AI-SAM-CHAT",
+      themeColor: "#ec4899",
     },
     {
       id: "2",
@@ -27,6 +31,8 @@ export function PersonalityApp() {
       emoji: "🌟",
       tone: "Professional & Analytical",
       description: "Focused on productivity and detailed analysis",
+      phoneNumber: "+1-AI-NOVA-PRO",
+      themeColor: "#3b82f6",
     },
   ]);
 
@@ -36,6 +42,8 @@ export function PersonalityApp() {
     emoji: "🤖",
     tone: "neutral",
     description: "",
+    phoneNumber: "",
+    themeColor: "#6366f1",
   });
 
   const handleAddPersonality = () => {
@@ -50,6 +58,8 @@ export function PersonalityApp() {
         emoji: "🤖",
         tone: "neutral",
         description: "",
+        phoneNumber: "",
+        themeColor: "#6366f1",
       });
       setShowAddForm(false);
     }
@@ -102,6 +112,23 @@ export function PersonalityApp() {
                     <p className="text-sm text-white/40 mt-1">
                       {personality.description}
                     </p>
+                    <div className="flex items-center gap-4 mt-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-white/50">📞</span>
+                        <span className="text-xs text-white/60">
+                          {personality.phoneNumber}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div
+                          className="w-3 h-3 rounded-full border border-white/20"
+                          style={{ backgroundColor: personality.themeColor }}
+                        />
+                        <span className="text-xs text-white/60">
+                          Theme Color
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className="flex gap-2">
@@ -169,6 +196,72 @@ export function PersonalityApp() {
                 }
                 className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
               />
+              <input
+                type="text"
+                placeholder="Phone Number (e.g., +1-AI-CUSTOM)"
+                value={newPersonality.phoneNumber}
+                onChange={(e) =>
+                  setNewPersonality((prev) => ({
+                    ...prev,
+                    phoneNumber: e.target.value,
+                  }))
+                }
+                className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+              />
+              <div className="space-y-2">
+                <label className="text-sm text-white/70">Theme Color</label>
+                <div className="flex items-center gap-3">
+                  <input
+                    type="color"
+                    value={newPersonality.themeColor}
+                    onChange={(e) =>
+                      setNewPersonality((prev) => ({
+                        ...prev,
+                        themeColor: e.target.value,
+                      }))
+                    }
+                    className="w-12 h-10 rounded-lg bg-white/10 border border-white/20 cursor-pointer"
+                  />
+                  <input
+                    type="text"
+                    placeholder="#hex color"
+                    value={newPersonality.themeColor}
+                    onChange={(e) =>
+                      setNewPersonality((prev) => ({
+                        ...prev,
+                        themeColor: e.target.value,
+                      }))
+                    }
+                    className="flex-1 px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                  />
+                </div>
+                <div className="flex gap-2 mt-2">
+                  {[
+                    "#ec4899",
+                    "#3b82f6",
+                    "#10b981",
+                    "#f59e0b",
+                    "#ef4444",
+                    "#8b5cf6",
+                    "#06b6d4",
+                    "#84cc16",
+                    "#f97316",
+                    "#6366f1",
+                  ].map((color) => (
+                    <button
+                      key={color}
+                      onClick={() =>
+                        setNewPersonality((prev) => ({
+                          ...prev,
+                          themeColor: color,
+                        }))
+                      }
+                      className="w-8 h-8 rounded-lg border-2 border-white/20 hover:border-white/40 transition-colors"
+                      style={{ backgroundColor: color }}
+                    />
+                  ))}
+                </div>
+              </div>
               <textarea
                 placeholder="Description"
                 value={newPersonality.description}
