@@ -5,6 +5,7 @@ import { cn } from "../../lib/utils";
 import { openRouterService } from "../../services/openrouter";
 import { elevenLabsService } from "../../services/elevenlabs";
 import { notificationService } from "../../services/notifications";
+import { emotionEngine } from "../../services/emotions";
 
 interface ChatMessage {
   id: string;
@@ -12,6 +13,7 @@ interface ChatMessage {
   sender: "user" | "assistant";
   timestamp: Date;
   isStreaming?: boolean;
+  emotions?: string; // Emoji representation of emotions
 }
 
 interface ChatBubbleProps {
@@ -49,12 +51,19 @@ function ChatBubble({ message, isUser }: ChatBubbleProps) {
           message.isStreaming && "animate-pulse",
         )}
       >
-        <p className="text-sm leading-relaxed whitespace-pre-wrap">
-          {message.content}
-          {message.isStreaming && (
-            <span className="inline-block w-2 h-4 ml-1 bg-current animate-pulse" />
+        <div className="flex items-start gap-2">
+          {message.emotions && message.sender === "assistant" && (
+            <span className="text-lg flex-shrink-0 mt-0.5">
+              {message.emotions}
+            </span>
           )}
-        </p>
+          <p className="text-sm leading-relaxed whitespace-pre-wrap flex-1">
+            {message.content}
+            {message.isStreaming && (
+              <span className="inline-block w-2 h-4 ml-1 bg-current animate-pulse" />
+            )}
+          </p>
+        </div>
         <span className="text-xs opacity-60 mt-1 block">
           {message.timestamp.toLocaleTimeString([], {
             hour: "2-digit",
@@ -75,6 +84,7 @@ export function ChatApp() {
         "Yo! What's good? I'm Sam, your AI assistant with that urban edge. Ready to help you out! 🔥",
       sender: "assistant",
       timestamp: new Date(),
+      emotions: "😎🔥", // confident and excited
     },
   ]);
 
@@ -117,6 +127,13 @@ export function ChatApp() {
       // Add current user message
       chatHistory.push({ role: "user", content: userMessage });
 
+      // Analyze emotional context before response
+      const detectedEmotions = emotionEngine.analyzeEmotionalContext(
+        userMessage,
+        "",
+      );
+      emotionEngine.updateEmotions(detectedEmotions);
+
       // Create streaming message
       const streamingMessageId = Date.now().toString();
       const streamingMessage: ChatMessage = {
@@ -129,9 +146,19 @@ export function ChatApp() {
 
       setMessages((prev) => [...prev, streamingMessage]);
 
-      // Get AI response with streaming
+      // Get AI response with streaming and emotional context
+      const emotionalContext = emotionEngine.getEmotionalContext();
+      const enhancedChatHistory = [
+        ...chatHistory.slice(0, -1), // All except last user message
+        {
+          role: "system" as const,
+          content: `You are Sam. ${emotionalContext}`,
+        },
+        chatHistory[chatHistory.length - 1], // Last user message
+      ];
+
       const fullResponse = await openRouterService.streamChatMessage(
-        chatHistory,
+        enhancedChatHistory,
         "sam", // Default personality for chat app
         (chunk) => {
           setMessages((prev) =>
@@ -144,11 +171,26 @@ export function ChatApp() {
         },
       );
 
-      // Finalize the message
+      // Analyze emotions from Sam's response and update
+      const responseEmotions = emotionEngine.analyzeEmotionalContext(
+        userMessage,
+        fullResponse,
+      );
+      emotionEngine.updateEmotions(responseEmotions, 40); // Lower intensity for response analysis
+
+      // Get emotional display for the message
+      const emotionalDisplay = emotionEngine.getEmotionalDisplay();
+
+      // Finalize the message with emotions
       setMessages((prev) =>
         prev.map((msg) =>
           msg.id === streamingMessageId
-            ? { ...msg, content: fullResponse, isStreaming: false }
+            ? {
+                ...msg,
+                content: fullResponse,
+                isStreaming: false,
+                emotions: emotionalDisplay,
+              }
             : msg,
         ),
       );
@@ -236,15 +278,28 @@ export function ChatApp() {
   };
 
   const clearChat = () => {
+    // Reset Sam's emotional state
+    emotionEngine.reset();
+
     setMessages([
       {
         id: "1",
         content: "Chat cleared! What's on your mind now? 🧹",
         sender: "assistant",
         timestamp: new Date(),
+        emotions: "😌✨", // Fresh and ready
       },
     ]);
   };
+
+  // Show Sam's emotional state in real-time
+  const [, forceUpdate] = useState({});
+  useEffect(() => {
+    const interval = setInterval(() => {
+      forceUpdate({}); // Force re-render to update emotional display
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <ResizableWindow appId="chat" title="💬 Chat with Sam">
@@ -266,14 +321,22 @@ export function ChatApp() {
                 🔊 TTS
               </button>
 
-              <div className="flex items-center gap-1 text-xs text-white/50">
-                <div
-                  className={cn(
-                    "w-2 h-2 rounded-full",
-                    isLoading ? "bg-yellow-400 animate-pulse" : "bg-green-400",
-                  )}
-                />
-                {isLoading ? "Thinking..." : "Online"}
+              {/* Sam's Current Emotional State */}
+              <div className="flex items-center gap-2 px-2 py-1 rounded-lg bg-white/10 border border-white/20">
+                <span className="text-sm">
+                  {emotionEngine.getEmotionalDisplay() || "🤖"}
+                </span>
+                <div className="flex items-center gap-1 text-xs text-white/50">
+                  <div
+                    className={cn(
+                      "w-2 h-2 rounded-full",
+                      isLoading
+                        ? "bg-yellow-400 animate-pulse"
+                        : "bg-green-400",
+                    )}
+                  />
+                  {isLoading ? "Thinking..." : "Online"}
+                </div>
               </div>
             </div>
 
