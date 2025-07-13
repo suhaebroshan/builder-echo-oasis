@@ -116,14 +116,21 @@ function DraggableIcon({
           "hover:scale-110 active:scale-95",
           "flex flex-col items-center justify-center",
           "bg-white/5 hover:bg-white/10 border-white/20 hover:border-white/30",
-          "shadow-[0_8px_32px_rgba(0,0,0,0.3)]",
-          "before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:opacity-30",
-          "after:absolute after:inset-0 after:bg-gradient-to-tr after:from-transparent after:via-white/5 after:to-white/10 after:opacity-50",
+          // 3D effect shadows and transforms
+          "shadow-[0_8px_32px_rgba(0,0,0,0.3),0_4px_16px_rgba(255,255,255,0.1)_inset]",
+          "transform-gpu perspective-1000",
+          "hover:shadow-[0_16px_48px_rgba(0,0,0,0.4),0_8px_24px_rgba(255,255,255,0.15)_inset]",
+          "hover:rotate-x-5 hover:rotate-y-5",
+          // Enhanced glass effect with 3D appearance
+          "before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/15 before:via-white/8 before:to-transparent before:opacity-40",
+          "after:absolute after:inset-0 after:bg-gradient-to-tr after:from-transparent after:via-white/10 after:to-white/15 after:opacity-60",
+          // Additional 3D highlight on top edge
+          "before:shadow-[0_1px_0_rgba(255,255,255,0.3)_inset]",
           isDragging &&
-            "z-50 scale-110 shadow-[0_16px_64px_rgba(0,0,0,0.4)] cursor-grabbing",
+            "z-50 scale-110 shadow-[0_24px_80px_rgba(0,0,0,0.5),0_12px_32px_rgba(255,255,255,0.2)_inset] cursor-grabbing rotate-x-8 rotate-y-8",
         )}
       >
-        <span className="text-xl sm:text-2xl group-hover:scale-110 transition-transform pointer-events-none relative z-10">
+        <span className="text-xl sm:text-2xl group-hover:scale-110 transition-transform pointer-events-none relative z-10 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] filter">
           {icon}
         </span>
       </button>
