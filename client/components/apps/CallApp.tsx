@@ -22,7 +22,7 @@ export function CallApp() {
   const [currentCall, setCurrentCall] = useState<Contact | null>(null);
   const [contacts, setContacts] = useState<Contact[]>([]);
 
-  // Load personality contacts
+  // Load personality contacts and AI Assistant
   useEffect(() => {
     const personalityContacts: Contact[] = Object.values(apps)
       .filter((app) => app.type === "personality")
@@ -34,7 +34,16 @@ export function CallApp() {
         type: "personality" as const,
       }));
 
-    setContacts(personalityContacts);
+    // Add AI Assistant as a callable contact
+    const aiAssistant: Contact = {
+      id: "ai-assistant",
+      name: "AI Assistant",
+      phoneNumber: "+1-AI-ASSIST",
+      icon: "🤖",
+      type: "personality" as const,
+    };
+
+    setContacts([aiAssistant, ...personalityContacts]);
   }, [apps]);
 
   // Filter contacts based on search
@@ -154,7 +163,7 @@ export function CallApp() {
           {/* Contacts List */}
           <div className="flex-1 overflow-y-auto p-4">
             <h3 className="text-lg font-semibold text-white mb-4">
-              AI Personalities
+              AI Contacts ({filteredContacts.length})
             </h3>
             <div className="space-y-3">
               {filteredContacts.map((contact) => (
