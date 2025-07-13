@@ -177,13 +177,13 @@ export function ResizableWindow({
           className,
         )}
       >
-        {/* Title Bar */}
+        {/* Title Bar - Fixed */}
         <div
           ref={dragRef}
           onMouseDown={(e) => !isMaximized && handleMouseDown(e, "drag")}
           className={cn(
-            "flex items-center justify-between p-4 flex-shrink-0",
-            "border-b border-white/10",
+            "sticky top-0 z-30 flex items-center justify-between p-4 flex-shrink-0",
+            "border-b border-white/10 backdrop-blur-xl bg-white/5",
             !isMaximized && "cursor-move",
           )}
         >
@@ -215,8 +215,10 @@ export function ResizableWindow({
           </div>
         </div>
 
-        {/* Window Content */}
-        <div className="flex-1 overflow-auto min-h-0">{children}</div>
+        {/* Window Content - Scrollable */}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden">
+          {children}
+        </div>
 
         {/* Resize Handles */}
         {!isMaximized && (
