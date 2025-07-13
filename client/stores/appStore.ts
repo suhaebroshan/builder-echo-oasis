@@ -141,7 +141,7 @@ const defaultApps: Record<AppId, App> = {
     position: { x: 400, y: 100 },
     size: { width: 800, height: 600 },
     type: "personality",
-    phoneNumber: "001",
+    phoneNumber: "+1-AI-SAM-CHAT",
     description: "Creative and edgy AI assistant with urban vibes",
   },
   nova: {
@@ -155,7 +155,7 @@ const defaultApps: Record<AppId, App> = {
     position: { x: 450, y: 150 },
     size: { width: 800, height: 600 },
     type: "personality",
-    phoneNumber: "002",
+    phoneNumber: "+1-AI-NOVA-PRO",
     description:
       "Professional and analytical AI assistant with holographic aesthetics",
   },
