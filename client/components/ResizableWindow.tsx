@@ -216,7 +216,7 @@ export function ResizableWindow({
         </div>
 
         {/* Window Content - Scrollable */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden min-h-0">
           {children}
         </div>
 
