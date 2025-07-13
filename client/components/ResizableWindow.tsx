@@ -172,7 +172,7 @@ export function ResizableWindow({
         intensity="heavy"
         animated={true}
         className={cn(
-          "relative flex flex-col w-full h-full overflow-visible",
+          "relative flex flex-col w-full h-full",
           isMaximized ? "rounded-none" : "rounded-2xl sm:rounded-3xl",
           className,
         )}
@@ -215,10 +215,8 @@ export function ResizableWindow({
           </div>
         </div>
 
-        {/* Window Content - Scrollable */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden min-h-0">
-          {children}
-        </div>
+        {/* Window Content */}
+        <div className="flex-1 overflow-auto min-h-0">{children}</div>
 
         {/* Resize Handles */}
         {!isMaximized && (
