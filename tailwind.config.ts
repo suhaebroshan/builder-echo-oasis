@@ -84,6 +84,11 @@ export default {
       backdropBlur: {
         xs: "2px",
       },
+      perspective: {
+        "500": "500px",
+        "1000": "1000px",
+        "1500": "1500px",
+      },
       boxShadow: {
         glow: "0 0 20px rgba(var(--glow-color), 0.5)",
         "glow-lg": "0 0 40px rgba(var(--glow-color), 0.4)",
@@ -122,6 +127,13 @@ export default {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-10px)" },
         },
+        "rotate-3d": {
+          "0%": { transform: "rotateX(0deg) rotateY(0deg)" },
+          "25%": { transform: "rotateX(5deg) rotateY(5deg)" },
+          "50%": { transform: "rotateX(0deg) rotateY(10deg)" },
+          "75%": { transform: "rotateX(-5deg) rotateY(5deg)" },
+          "100%": { transform: "rotateX(0deg) rotateY(0deg)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -130,6 +142,7 @@ export default {
         "liquid-flow": "liquid-flow 4s ease-in-out infinite",
         "glass-pulse": "glass-pulse 3s ease-in-out infinite",
         float: "float 3s ease-in-out infinite",
+        "rotate-3d": "rotate-3d 6s ease-in-out infinite",
       },
     },
   },
