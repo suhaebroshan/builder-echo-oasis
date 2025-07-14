@@ -1,5 +1,5 @@
 const ELEVENLABS_API_KEY =
-  "sk_9a78cb2023e4d9f4ca6a680f97df1ee8033ce2515f60c114";
+  "sk_a9132f1f3516b73941f108a86c5de62f7ce29785b66506b8";
 const ELEVENLABS_BASE_URL = "https://api.elevenlabs.io/v1";
 const DEFAULT_VOICE_ID = "5k6fcAxeTFk8qPD08xKm"; // Default voice
 
