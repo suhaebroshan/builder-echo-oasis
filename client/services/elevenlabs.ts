@@ -13,6 +13,9 @@ export interface VoiceSettings {
 export class ElevenLabsService {
   private static instance: ElevenLabsService;
   private audioContext: AudioContext | null = null;
+  private currentAudio: AudioBufferSourceNode | null = null;
+  private gainNode: GainNode | null = null;
+  private volume: number = 0.7;
 
   static getInstance(): ElevenLabsService {
     if (!ElevenLabsService.instance) {
@@ -25,7 +28,18 @@ export class ElevenLabsService {
     if (!this.audioContext) {
       this.audioContext = new (window.AudioContext ||
         (window as any).webkitAudioContext)();
+
+      // Create gain node for volume control
+      this.gainNode = this.audioContext.createGain();
+      this.gainNode.connect(this.audioContext.destination);
+      this.gainNode.gain.value = this.volume;
     }
+
+    // Resume if suspended (required for some browsers)
+    if (this.audioContext.state === "suspended") {
+      await this.audioContext.resume();
+    }
+
     return this.audioContext;
   }
 
@@ -74,16 +88,32 @@ export class ElevenLabsService {
     }
   }
 
-  async playAudio(audioBuffer: AudioBuffer): Promise<void> {
+  async playAudio(audioBuffer: AudioBuffer, volume?: number): Promise<void> {
     try {
+      // Stop any currently playing audio
+      this.stopAudio();
+
       const audioContext = await this.getAudioContext();
       const source = audioContext.createBufferSource();
       source.buffer = audioBuffer;
-      source.connect(audioContext.destination);
+
+      if (this.gainNode) {
+        source.connect(this.gainNode);
+        if (volume !== undefined) {
+          this.gainNode.gain.value = Math.max(0, Math.min(1, volume));
+        }
+      } else {
+        source.connect(audioContext.destination);
+      }
+
+      this.currentAudio = source;
       source.start();
 
       return new Promise((resolve) => {
-        source.onended = () => resolve();
+        source.onended = () => {
+          this.currentAudio = null;
+          resolve();
+        };
       });
     } catch (error) {
       console.error("Audio playback error:", error);
@@ -162,14 +192,49 @@ export class ElevenLabsService {
     }
   }
 
+  // Stop currently playing audio
+  stopAudio(): void {
+    if (this.currentAudio) {
+      try {
+        this.currentAudio.stop();
+      } catch (error) {
+        // Audio might already be stopped
+      }
+      this.currentAudio = null;
+    }
+  }
+
+  // Set volume (0-1)
+  setVolume(volume: number): void {
+    this.volume = Math.max(0, Math.min(1, volume));
+    if (this.gainNode) {
+      this.gainNode.gain.value = this.volume;
+    }
+  }
+
+  // Get current volume
+  getVolume(): number {
+    return this.volume;
+  }
+
+  // Check if TTS is currently speaking
+  isSpeaking(): boolean {
+    return this.currentAudio !== null;
+  }
+
   // Quick play text function for convenience
-  async speakText(text: string, voiceId?: string): Promise<void> {
+  async speakText(
+    text: string,
+    voiceId?: string,
+    volume?: number,
+  ): Promise<void> {
     try {
       const audioBuffer = await this.textToSpeech(text, voiceId);
-      await this.playAudio(audioBuffer);
+      await this.playAudio(audioBuffer, volume);
     } catch (error) {
       console.error("Speak text error:", error);
       // Fail silently for TTS to not interrupt UX
+      throw error; // Re-throw to allow calling code to handle
     }
   }
 
