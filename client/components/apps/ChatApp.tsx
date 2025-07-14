@@ -387,23 +387,38 @@ export function ChatApp() {
 
                 {ttsEnabled && (
                   <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-white/10 border border-white/20">
-                    <span className="text-xs text-white/60">🔉</span>
-                    <input
-                      type="range"
-                      min="0"
-                      max="1"
-                      step="0.1"
-                      value={ttsVolume}
-                      onChange={(e) => {
-                        const vol = parseFloat(e.target.value);
-                        setTtsVolume(vol);
-                        elevenLabsService.setVolume(vol);
-                      }}
-                      className="w-16 h-1 bg-white/20 rounded-lg appearance-none cursor-pointer"
-                      style={{
-                        background: `linear-gradient(to right, #10b981 0%, #10b981 ${ttsVolume * 100}%, rgba(255,255,255,0.2) ${ttsVolume * 100}%, rgba(255,255,255,0.2) 100%)`,
-                      }}
-                    />
+                    {isSpeaking ? (
+                      <button
+                        onClick={() => {
+                          elevenLabsService.stopAudio();
+                          setIsSpeaking(false);
+                        }}
+                        className="text-xs text-red-400 hover:text-red-300 transition-colors"
+                        title="Stop Speaking"
+                      >
+                        ⏹️
+                      </button>
+                    ) : (
+                      <>
+                        <span className="text-xs text-white/60">🔉</span>
+                        <input
+                          type="range"
+                          min="0"
+                          max="1"
+                          step="0.1"
+                          value={ttsVolume}
+                          onChange={(e) => {
+                            const vol = parseFloat(e.target.value);
+                            setTtsVolume(vol);
+                            elevenLabsService.setVolume(vol);
+                          }}
+                          className="w-16 h-1 bg-white/20 rounded-lg appearance-none cursor-pointer"
+                          style={{
+                            background: `linear-gradient(to right, #10b981 0%, #10b981 ${ttsVolume * 100}%, rgba(255,255,255,0.2) ${ttsVolume * 100}%, rgba(255,255,255,0.2) 100%)`,
+                          }}
+                        />
+                      </>
+                    )}
                   </div>
                 )}
               </div>
