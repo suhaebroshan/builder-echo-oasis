@@ -13,6 +13,8 @@ import { MemoryApp } from "./components/apps/MemoryApp";
 import { PersonalityChatApp } from "./components/apps/PersonalityChatApp";
 import { AIAssistantApp } from "./components/apps/AIAssistantApp";
 import { AlarmApp } from "./components/apps/AlarmApp";
+import { welcomeSystem } from "./services/welcomeSystem";
+import { useEffect } from "react";
 
 function AppContainer() {
   const { apps, getPersonalities } = useAppStore();
