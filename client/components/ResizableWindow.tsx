@@ -46,6 +46,13 @@ export function ResizableWindow({
     isDragging: false,
     isResizing: false,
     resizeDirection: "",
+    isAnimating: false,
+    previousState: null as {
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+    } | null,
   });
 
   useEffect(() => {
@@ -133,18 +140,57 @@ export function ResizableWindow({
   };
 
   const handleMaximize = () => {
-    maximizeApp(appId);
-    onMaximize?.();
+    setWindowState((prev) => ({
+      ...prev,
+      isAnimating: true,
+      previousState: isMaximized
+        ? null
+        : {
+            x: prev.x,
+            y: prev.y,
+            width: prev.width,
+            height: prev.height,
+          },
+    }));
+
+    setTimeout(() => {
+      maximizeApp(appId);
+      onMaximize?.();
+
+      setTimeout(() => {
+        setWindowState((prev) => ({ ...prev, isAnimating: false }));
+      }, 300);
+    }, 50);
   };
 
   const handleMinimize = () => {
-    minimizeApp(appId);
-    onMinimize?.();
+    setWindowState((prev) => ({ ...prev, isAnimating: true }));
+
+    // Add minimize animation
+    if (windowRef.current) {
+      windowRef.current.style.transform = "scale(0.3) translateY(100vh)";
+      windowRef.current.style.opacity = "0";
+    }
+
+    setTimeout(() => {
+      minimizeApp(appId);
+      onMinimize?.();
+    }, 300);
   };
 
   const handleClose = () => {
-    closeApp(appId);
-    onClose?.();
+    setWindowState((prev) => ({ ...prev, isAnimating: true }));
+
+    // Add close animation
+    if (windowRef.current) {
+      windowRef.current.style.transform = "scale(0.8)";
+      windowRef.current.style.opacity = "0";
+    }
+
+    setTimeout(() => {
+      closeApp(appId);
+      onClose?.();
+    }, 200);
   };
 
   if (!isOpen || isMinimized) return null;
@@ -153,10 +199,12 @@ export function ResizableWindow({
     <div
       ref={windowRef}
       className={cn(
-        "fixed z-50 select-none",
-        "animate-in fade-in slide-in-from-bottom-8 duration-300",
+        "fixed z-50 select-none transition-all duration-300 ease-out",
+        "animate-in fade-in slide-in-from-bottom-8",
         windowState.isDragging && "cursor-move",
         windowState.isResizing && "cursor-nw-resize",
+        windowState.isAnimating && "transition-all duration-300 ease-in-out",
+        isMaximized && "transition-all duration-300 ease-in-out",
       )}
       style={{
         left: isMaximized ? 0 : windowState.x,
@@ -199,17 +247,17 @@ export function ResizableWindow({
           <div className="flex items-center gap-2">
             <button
               onClick={handleMinimize}
-              className="w-3 h-3 rounded-full bg-yellow-400 hover:bg-yellow-300 transition-colors"
+              className="w-3 h-3 rounded-full bg-yellow-400 hover:bg-yellow-300 hover:scale-110 transition-all duration-200 active:scale-95"
               aria-label="Minimize"
             />
             <button
               onClick={handleMaximize}
-              className="w-3 h-3 rounded-full bg-green-400 hover:bg-green-300 transition-colors"
+              className="w-3 h-3 rounded-full bg-green-400 hover:bg-green-300 hover:scale-110 transition-all duration-200 active:scale-95"
               aria-label="Maximize"
             />
             <button
               onClick={handleClose}
-              className="w-3 h-3 rounded-full bg-red-400 hover:bg-red-300 transition-colors"
+              className="w-3 h-3 rounded-full bg-red-400 hover:bg-red-300 hover:scale-110 transition-all duration-200 active:scale-95"
               aria-label="Close"
             />
           </div>
