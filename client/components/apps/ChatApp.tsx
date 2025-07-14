@@ -106,6 +106,8 @@ export function ChatApp() {
   const [connectionStatus, setConnectionStatus] = useState<
     "online" | "connecting" | "offline"
   >("online");
+  const [ttsVolume, setTtsVolume] = useState(0.7);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
