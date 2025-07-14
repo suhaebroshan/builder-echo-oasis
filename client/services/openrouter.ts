@@ -162,6 +162,8 @@ Respond as Sam would - with genuine emotion, personality, and that urban edge. D
     personality?: string,
     onChunk?: (chunk: string) => void,
   ): Promise<string> {
+    await this.enforceRateLimit();
+
     try {
       let systemPrompt = "You are a helpful AI assistant.";
 
