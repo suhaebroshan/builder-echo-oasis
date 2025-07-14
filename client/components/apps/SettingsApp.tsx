@@ -162,6 +162,42 @@ export function SettingsApp() {
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    // Load settings from localStorage and services
+    const loadSettings = () => {
+      setSettings((prev) => ({
+        ...prev,
+        notifications: notificationService.isNotificationsEnabled(),
+        notificationSounds: notificationService.isSoundEnabled(),
+        ttsVolume: elevenLabsService.getVolume(),
+      }));
+    };
+
+    loadSettings();
+
+    // Apply current glass opacity to CSS
+    document.documentElement.style.setProperty(
+      "--glass-opacity",
+      settings.glassOpacity.toString(),
+    );
+  }, []);
+
+  useEffect(() => {
+    // Apply settings to CSS variables whenever they change
+    document.documentElement.style.setProperty(
+      "--glass-enabled",
+      settings.glassmorphism ? "1" : "0",
+    );
+    document.documentElement.style.setProperty(
+      "--animations-enabled",
+      settings.animations ? "1" : "0",
+    );
+    document.documentElement.style.setProperty(
+      "--particles-enabled",
+      settings.particleEffects ? "1" : "0",
+    );
+  }, [settings.glassmorphism, settings.animations, settings.particleEffects]);
+
   const handleToggle = (key: keyof typeof settings) => (checked: boolean) => {
     setSettings((prev) => ({ ...prev, [key]: checked }));
 
