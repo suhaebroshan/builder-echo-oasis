@@ -769,6 +769,104 @@ export function SettingsApp() {
           </div>
         </section>
 
+        {/* System Information */}
+        <section>
+          <h2
+            className={cn(
+              "text-xl font-semibold mb-4",
+              theme === "sam" ? "text-sam-pink" : "text-nova-cyan",
+            )}
+          >
+            System Information
+          </h2>
+          <div className="space-y-4">
+            <div className="p-4 rounded-xl backdrop-blur-md bg-white/5 border border-white/10">
+              <div className="space-y-3">
+                <div className="flex justify-between text-sm">
+                  <span className="text-white/60">SIOS Version</span>
+                  <span className="text-white">2.0.0-AI-Enhanced</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-white/60">AI Model</span>
+                  <span className="text-white">Dolphin Mistral 24B Venice</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-white/60">Voice Engine</span>
+                  <span className="text-white">ElevenLabs Neural TTS</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-white/60">Memory Status</span>
+                  <span className="text-green-400">
+                    {memorySystem.getMemoryStats().totalConversations}{" "}
+                    conversations stored
+                  </span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-white/60">Notifications</span>
+                  <span
+                    className={cn(
+                      notificationService.hasPermission()
+                        ? "text-green-400"
+                        : "text-yellow-400",
+                    )}
+                  >
+                    {notificationService.hasPermission()
+                      ? "Enabled"
+                      : "Permission needed"}
+                  </span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-white/60">Browser</span>
+                  <span className="text-white">
+                    {navigator.userAgent.includes("Chrome")
+                      ? "Chrome"
+                      : navigator.userAgent.includes("Firefox")
+                        ? "Firefox"
+                        : navigator.userAgent.includes("Safari")
+                          ? "Safari"
+                          : "Unknown"}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="p-4 rounded-xl backdrop-blur-md bg-white/5 border border-white/10">
+              <h3 className="font-medium text-white mb-3">Quick Actions</h3>
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  onClick={() => window.location.reload()}
+                  className="p-3 text-left rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
+                >
+                  <div className="flex items-center gap-2 text-sm">
+                    <span>🔄</span>
+                    <span className="text-white">Restart SIOS</span>
+                  </div>
+                </button>
+                <button
+                  onClick={() => {
+                    if (
+                      window.confirm(
+                        "This will reset all settings and data. Continue?",
+                      )
+                    ) {
+                      localStorage.clear();
+                      sessionStorage.clear();
+                      window.location.reload();
+                    }
+                  }}
+                  className="p-3 text-left rounded-lg bg-red-500/10 hover:bg-red-500/20 transition-colors"
+                >
+                  <div className="flex items-center gap-2 text-sm">
+                    <span>⚠️</span>
+                    <span className="text-red-400">Factory Reset</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* About Section */}
         <section>
           <h2
@@ -777,17 +875,23 @@ export function SettingsApp() {
               theme === "sam" ? "text-sam-pink" : "text-nova-cyan",
             )}
           >
-            About
+            About SIOS
           </h2>
           <div className="p-4 rounded-xl backdrop-blur-md bg-white/5 border border-white/10">
             <div className="text-center space-y-2">
-              <h3 className="text-lg font-semibold text-white">SIOS v1.0.0</h3>
+              <h3 className="text-lg font-semibold text-white">SIOS v2.0 🚀</h3>
               <p className="text-sm text-white/60">
                 Sam Intelligence Operating System
               </p>
               <p className="text-xs text-white/40">
-                Frontend by Builder.io • Backend by Sam AI
+                Real AI • Real Conversations • Real Future
               </p>
+              <div className="mt-4 pt-3 border-t border-white/10">
+                <p className="text-xs text-white/50">
+                  Built with OpenRouter AI, ElevenLabs TTS, and bleeding-edge
+                  web tech
+                </p>
+              </div>
             </div>
           </div>
         </section>
