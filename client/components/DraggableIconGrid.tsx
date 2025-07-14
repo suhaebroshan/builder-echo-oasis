@@ -91,8 +91,24 @@ function DraggableIcon({
       const deltaY = Math.abs(e.clientY - startMouseY);
 
       if (deltaX < 5 && deltaY < 5) {
-        // This was a click, not a drag
-        onOpen(appId);
+        // This was a click, not a drag - add launch animation
+        if (iconRef.current) {
+          // Launch animation: scale up then back to normal
+          iconRef.current.style.transform = "scale(1.3) rotateY(180deg)";
+          iconRef.current.style.transition =
+            "transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)";
+
+          setTimeout(() => {
+            if (iconRef.current) {
+              iconRef.current.style.transform = "scale(1) rotateY(0deg)";
+            }
+          }, 300);
+        }
+
+        // Delay opening the app to show the animation
+        setTimeout(() => {
+          onOpen(appId);
+        }, 150);
       }
     };
 
