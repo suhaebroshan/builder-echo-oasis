@@ -20,6 +20,18 @@ function AppContainer() {
   const { apps, getPersonalities } = useAppStore();
   const personalities = getPersonalities();
 
+  useEffect(() => {
+    // Initialize welcome system
+    const initWelcome = async () => {
+      await welcomeSystem.checkAndShowWelcome();
+      welcomeSystem.startPeriodicMotivation();
+      welcomeSystem.startPersonalityMoments();
+    };
+
+    // Delay welcome to allow UI to load
+    setTimeout(initWelcome, 2000);
+  }, []);
+
   return (
     <div className="w-full h-screen overflow-hidden bg-black font-poppins">
       {/* Main SIOS Launcher */}
