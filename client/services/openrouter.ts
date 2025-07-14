@@ -51,6 +51,8 @@ export class OpenRouterService {
     messages: ChatMessage[],
     personality?: string,
   ): Promise<string> {
+    await this.enforceRateLimit();
+
     try {
       // Add personality system prompt if provided
       let systemPrompt = "You are a helpful AI assistant.";
