@@ -6,6 +6,9 @@ import { openRouterService } from "../../services/openrouter";
 import { elevenLabsService } from "../../services/elevenlabs";
 import { notificationService } from "../../services/notifications";
 import { emotionEngine } from "../../services/emotions";
+import { advancedEmotionEngine } from "../../services/advancedEmotions";
+import { personalityEngine } from "../../services/personalityCore";
+import { gestureEngine } from "../../services/gestureEngine";
 
 interface ChatMessage {
   id: string;
@@ -14,6 +17,12 @@ interface ChatMessage {
   timestamp: Date;
   isStreaming?: boolean;
   emotions?: string; // Emoji representation of emotions
+  consciousness?: {
+    awareness: number;
+    coherence: number;
+    authenticity: number;
+  };
+  personalityTraits?: string[]; // Visible personality traits in response
 }
 
 interface ChatBubbleProps {
@@ -108,6 +117,9 @@ export function ChatApp() {
   useEffect(() => {
     // Request notification permission on mount
     notificationService.requestPermission();
+
+    // Initialize Sam personality
+    personalityEngine.setActivePersonality("sam");
   }, []);
 
   const getAIResponse = async (userMessage: string) => {
