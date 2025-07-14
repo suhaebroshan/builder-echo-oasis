@@ -101,21 +101,43 @@ Respond as Sam would - with genuine emotion, personality, and that urban edge. D
       });
 
       if (!response.ok) {
-        throw new Error(
-          `OpenRouter API error: ${response.status} ${response.statusText}`,
-        );
+        let errorMessage = "Failed to get AI response. Please try again.";
+
+        if (response.status === 429) {
+          errorMessage =
+            "Rate limit exceeded. Please wait a moment before trying again.";
+        } else if (response.status === 401) {
+          errorMessage =
+            "API authentication failed. Please check your settings.";
+        } else if (response.status === 403) {
+          errorMessage = "API access denied. Please check your permissions.";
+        } else if (response.status >= 500) {
+          errorMessage =
+            "AI service is temporarily unavailable. Please try again later.";
+        }
+
+        throw new Error(errorMessage);
       }
 
       const data: ChatResponse = await response.json();
 
       if (!data.choices || data.choices.length === 0) {
-        throw new Error("No response from AI");
+        throw new Error("No response from AI. The model may be overloaded.");
       }
 
       return data.choices[0].message.content;
     } catch (error) {
       console.error("OpenRouter API error:", error);
-      throw new Error("Failed to get AI response. Please try again.");
+
+      // If it's already our custom error, re-throw it
+      if (error instanceof Error && error.message.includes("Rate limit")) {
+        throw error;
+      }
+
+      // For network errors or other issues
+      throw new Error(
+        "Failed to connect to AI service. Please check your internet connection.",
+      );
     }
   }
 
@@ -158,7 +180,22 @@ Respond as Sam would - with genuine emotion, personality, and that urban edge. D
       });
 
       if (!response.ok) {
-        throw new Error(`OpenRouter API error: ${response.status}`);
+        let errorMessage = "Failed to get AI response. Please try again.";
+
+        if (response.status === 429) {
+          errorMessage =
+            "Rate limit exceeded. Please wait a moment before trying again.";
+        } else if (response.status === 401) {
+          errorMessage =
+            "API authentication failed. Please check your settings.";
+        } else if (response.status === 403) {
+          errorMessage = "API access denied. Please check your permissions.";
+        } else if (response.status >= 500) {
+          errorMessage =
+            "AI service is temporarily unavailable. Please try again later.";
+        }
+
+        throw new Error(errorMessage);
       }
 
       const reader = response.body?.getReader();
