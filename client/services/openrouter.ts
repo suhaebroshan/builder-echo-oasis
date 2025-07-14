@@ -71,7 +71,7 @@ export class OpenRouterService {
       userMessage.toLowerCase().includes("hello") ||
       userMessage.toLowerCase().includes("hi")
     ) {
-      return "Yooo what's good! Welcome to SIOS! I'm Sam, your AI companion who's currently running on backup power but still full of personality! 🎨����";
+      return "Yooo what's good! Welcome to SIOS! I'm Sam, your AI companion who's currently running on backup power but still full of personality! 🎨🔥";
     }
 
     if (
@@ -317,7 +317,32 @@ Respond as Sam would - with genuine emotion, personality, and that urban edge. D
       return fullResponse;
     } catch (error) {
       console.error("Streaming error:", error);
-      return this.sendChatMessage(messages, personality);
+
+      // Use fallback with simulated streaming
+      this.isUsingFallback = true;
+
+      const mockResponse =
+        personality === "nova"
+          ? this.getNovaMockResponse(
+              messages[messages.length - 1]?.content || "",
+            )
+          : this.getSamMockResponse(
+              messages[messages.length - 1]?.content || "",
+            );
+
+      // Simulate streaming by sending chunks
+      if (onChunk) {
+        const words = mockResponse.split(" ");
+        for (let i = 0; i < words.length; i++) {
+          const chunk = words[i] + (i < words.length - 1 ? " " : "");
+          onChunk(chunk);
+          await new Promise((resolve) =>
+            setTimeout(resolve, 100 + Math.random() * 100),
+          );
+        }
+      }
+
+      return mockResponse;
     }
   }
 }
