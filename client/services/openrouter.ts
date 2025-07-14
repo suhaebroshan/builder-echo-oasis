@@ -25,12 +25,26 @@ export interface ChatResponse {
 
 export class OpenRouterService {
   private static instance: OpenRouterService;
+  private lastRequestTime: number = 0;
+  private minRequestInterval: number = 2000; // 2 seconds between requests
 
   static getInstance(): OpenRouterService {
     if (!OpenRouterService.instance) {
       OpenRouterService.instance = new OpenRouterService();
     }
     return OpenRouterService.instance;
+  }
+
+  private async enforceRateLimit(): Promise<void> {
+    const now = Date.now();
+    const timeSinceLastRequest = now - this.lastRequestTime;
+
+    if (timeSinceLastRequest < this.minRequestInterval) {
+      const waitTime = this.minRequestInterval - timeSinceLastRequest;
+      await new Promise((resolve) => setTimeout(resolve, waitTime));
+    }
+
+    this.lastRequestTime = Date.now();
   }
 
   async sendChatMessage(
