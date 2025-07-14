@@ -1,7 +1,10 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { ResizableWindow } from "../ResizableWindow";
 import { cn } from "../../lib/utils";
+import { notificationService } from "../../services/notifications";
+import { memorySystem } from "../../services/memorySystem";
+import { elevenLabsService } from "../../services/elevenlabs";
 
 interface ToggleProps {
   label: string;
@@ -130,7 +133,8 @@ function Dropdown({
 export function SettingsApp() {
   const { theme, setTheme } = useTheme();
   const [settings, setSettings] = useState({
-    notifications: true,
+    notifications: notificationService.isNotificationsEnabled(),
+    notificationSounds: notificationService.isSoundEnabled(),
     voiceMode: false,
     autoSave: true,
     darkMode: true,
@@ -139,6 +143,7 @@ export function SettingsApp() {
     customWallpaper: null as string | null,
     animations: true,
     glassmorphism: true,
+    glassOpacity: 0.1,
     particleEffects: true,
     iconSize: "normal",
     gridSize: "15x5",
@@ -146,18 +151,36 @@ export function SettingsApp() {
     hapticFeedback: true,
     lowPowerMode: false,
     analyticsEnabled: false,
-    // New AI settings
+    // AI settings
     defaultPersonality: "sam",
     aiResponseSpeed: "normal",
     streamingEnabled: true,
     autoTTS: false,
     voiceInputEnabled: true,
     wakeUpPersonality: "sam",
+    ttsVolume: 0.7,
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleToggle = (key: keyof typeof settings) => (checked: boolean) => {
     setSettings((prev) => ({ ...prev, [key]: checked }));
+
+    // Apply settings immediately
+    if (key === "notifications") {
+      notificationService.setEnabled(checked);
+    } else if (key === "notificationSounds") {
+      notificationService.setSoundEnabled(checked);
+    } else if (key === "glassmorphism") {
+      document.documentElement.style.setProperty(
+        "--glass-enabled",
+        checked ? "1" : "0",
+      );
+    } else if (key === "animations") {
+      document.documentElement.style.setProperty(
+        "--animations-enabled",
+        checked ? "1" : "0",
+      );
+    }
   };
 
   const handleClearMemory = () => {
@@ -166,9 +189,39 @@ export function SettingsApp() {
         "Are you sure you want to clear all memory? This action cannot be undone.",
       )
     ) {
-      // TODO: Implement actual memory clearing
-      alert("Memory cleared! (This is a placeholder)");
+      memorySystem.clearAllMemory();
+      alert("Memory cleared successfully!");
     }
+  };
+
+  const handleExportData = async () => {
+    try {
+      const memoryData = memorySystem.exportMemoryData();
+      const blob = new Blob([memoryData], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `sios-data-export-${new Date().toISOString().split("T")[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      alert("Export failed: " + error);
+    }
+  };
+
+  const handleGlassOpacityChange = (opacity: number) => {
+    setSettings((prev) => ({ ...prev, glassOpacity: opacity }));
+    document.documentElement.style.setProperty(
+      "--glass-opacity",
+      opacity.toString(),
+    );
+  };
+
+  const handleTTSVolumeChange = (volume: number) => {
+    setSettings((prev) => ({ ...prev, ttsVolume: volume }));
+    elevenLabsService.setVolume(volume);
   };
 
   const handleWallpaperUpload = (
@@ -241,6 +294,38 @@ export function SettingsApp() {
               onChange={handleToggle("glassmorphism")}
               icon="🔮"
             />
+
+            {/* Glass Opacity Slider */}
+            {settings.glassmorphism && (
+              <div className="p-4 rounded-xl backdrop-blur-md bg-white/5 border border-white/10">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-2xl">💎</span>
+                  <div className="flex-1">
+                    <h3 className="font-medium text-white">Glass Opacity</h3>
+                    <p className="text-sm text-white/60">
+                      Adjust transparency level
+                    </p>
+                  </div>
+                  <span className="text-sm text-white/70">
+                    {Math.round(settings.glassOpacity * 100)}%
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="0.05"
+                  max="0.3"
+                  step="0.01"
+                  value={settings.glassOpacity}
+                  onChange={(e) =>
+                    handleGlassOpacityChange(parseFloat(e.target.value))
+                  }
+                  className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
+                  style={{
+                    background: `linear-gradient(to right, ${theme === "sam" ? "#ff6b9d" : "#4ecdc4"} 0%, ${theme === "sam" ? "#ff6b9d" : "#4ecdc4"} ${settings.glassOpacity * 333}%, rgba(255,255,255,0.2) ${settings.glassOpacity * 333}%, rgba(255,255,255,0.2) 100%)`,
+                  }}
+                />
+              </div>
+            )}
             <Toggle
               label="Particle Effects"
               description="Enable floating particle background effects"
@@ -350,6 +435,13 @@ export function SettingsApp() {
               checked={settings.notifications}
               onChange={handleToggle("notifications")}
               icon="🔔"
+            />
+            <Toggle
+              label="Notification Sounds"
+              description="Play sounds with notifications"
+              checked={settings.notificationSounds}
+              onChange={handleToggle("notificationSounds")}
+              icon="🔊"
             />
             <Toggle
               label="Voice Mode"
@@ -481,7 +573,7 @@ export function SettingsApp() {
                   </div>
                 </div>
                 <button
-                  onClick={() => alert("Data export started! (Placeholder)")}
+                  onClick={handleExportData}
                   className={cn(
                     "px-4 py-2 rounded-lg backdrop-blur-md border text-sm font-medium transition-colors",
                     theme === "sam"
@@ -548,6 +640,36 @@ export function SettingsApp() {
               onChange={handleToggle("autoTTS")}
               icon="🔊"
             />
+
+            {/* TTS Volume Slider */}
+            <div className="p-4 rounded-xl backdrop-blur-md bg-white/5 border border-white/10">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-2xl">🔉</span>
+                <div className="flex-1">
+                  <h3 className="font-medium text-white">TTS Volume</h3>
+                  <p className="text-sm text-white/60">
+                    Adjust voice volume level
+                  </p>
+                </div>
+                <span className="text-sm text-white/70">
+                  {Math.round(settings.ttsVolume * 100)}%
+                </span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.1"
+                value={settings.ttsVolume}
+                onChange={(e) =>
+                  handleTTSVolumeChange(parseFloat(e.target.value))
+                }
+                className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, #10b981 0%, #10b981 ${settings.ttsVolume * 100}%, rgba(255,255,255,0.2) ${settings.ttsVolume * 100}%, rgba(255,255,255,0.2) 100%)`,
+                }}
+              />
+            </div>
             <Toggle
               label="Voice Input"
               description="Enable microphone for voice commands"
