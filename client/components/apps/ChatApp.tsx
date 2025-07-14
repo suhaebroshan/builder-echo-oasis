@@ -9,6 +9,7 @@ import { emotionEngine } from "../../services/emotions";
 import { advancedEmotionEngine } from "../../services/advancedEmotions";
 import { personalityEngine } from "../../services/personalityCore";
 import { gestureEngine } from "../../services/gestureEngine";
+import { memorySystem } from "../../services/memorySystem";
 
 interface ChatMessage {
   id: string;
@@ -102,6 +103,9 @@ export function ChatApp() {
   const [isRecording, setIsRecording] = useState(false);
   const [ttsEnabled, setTtsEnabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState<
+    "online" | "connecting" | "offline"
+  >("online");
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -120,11 +124,37 @@ export function ChatApp() {
 
     // Initialize Sam personality
     personalityEngine.setActivePersonality("sam");
+
+    // Load conversation history from memory
+    const recentMemories = memorySystem.getRecentConversations(5);
+    if (recentMemories.length > 0) {
+      const memoryMessages: ChatMessage[] = recentMemories
+        .reverse()
+        .map((memory) => [
+          {
+            id: `${memory.id}-user`,
+            content: memory.userMessage,
+            sender: "user" as const,
+            timestamp: new Date(memory.timestamp),
+          },
+          {
+            id: `${memory.id}-ai`,
+            content: memory.aiResponse,
+            sender: "assistant" as const,
+            timestamp: new Date(memory.timestamp),
+            emotions: memory.emotions.join(""),
+          },
+        ])
+        .flat();
+
+      setMessages((prev) => [...prev, ...memoryMessages]);
+    }
   }, []);
 
   const getAIResponse = async (userMessage: string) => {
     setIsTyping(true);
     setIsLoading(true);
+    setConnectionStatus("connecting");
 
     try {
       // Convert messages to OpenRouter format
@@ -138,6 +168,9 @@ export function ChatApp() {
 
       // Add current user message
       chatHistory.push({ role: "user", content: userMessage });
+
+      // Generate memory context for more personalized responses
+      const memoryContext = memorySystem.generateContextPrompt();
 
       // Analyze emotional context before response
       const detectedEmotions = emotionEngine.analyzeEmotionalContext(
@@ -158,13 +191,13 @@ export function ChatApp() {
 
       setMessages((prev) => [...prev, streamingMessage]);
 
-      // Get AI response with streaming and emotional context
+      // Get AI response with streaming, emotional context, and memory
       const emotionalContext = emotionEngine.getEmotionalContext();
       const enhancedChatHistory = [
         ...chatHistory.slice(0, -1), // All except last user message
         {
           role: "system" as const,
-          content: `You are Sam. ${emotionalContext}`,
+          content: `You are Sam. ${emotionalContext}\n\n${memoryContext}\n\nRemember to be consistent with what you know about the user and reference previous conversations when relevant.`,
         },
         chatHistory[chatHistory.length - 1], // Last user message
       ];
@@ -173,6 +206,7 @@ export function ChatApp() {
         enhancedChatHistory,
         "sam", // Default personality for chat app
         (chunk) => {
+          setConnectionStatus("online");
           setMessages((prev) =>
             prev.map((msg) =>
               msg.id === streamingMessageId
@@ -192,6 +226,15 @@ export function ChatApp() {
 
       // Get emotional display for the message
       const emotionalDisplay = emotionEngine.getEmotionalDisplay();
+
+      // Save conversation to memory system
+      memorySystem.addConversation(
+        userMessage,
+        fullResponse,
+        responseEmotions.map((e) => e.emoji),
+        "sam",
+        emotionalContext,
+      );
 
       // Finalize the message with emotions
       setMessages((prev) =>
@@ -224,19 +267,27 @@ export function ChatApp() {
       }
     } catch (error) {
       console.error("AI response error:", error);
+      setConnectionStatus("offline");
 
       const errorMessage: ChatMessage = {
         id: Date.now().toString(),
         content:
-          "Yo, I'm having trouble connecting right now. My bad! Try again in a sec.",
+          "Yo, I'm having trouble connecting right now. My bad! Try again in a sec. 😅",
         sender: "assistant",
         timestamp: new Date(),
+        emotions: "😅💔",
       };
 
       setMessages((prev) => [
         ...prev.filter((m) => !m.isStreaming),
         errorMessage,
       ]);
+
+      // Show detailed error notification
+      notificationService.showSystemNotification(
+        "Sam Connection Error",
+        "Failed to connect to AI service. Check your internet connection.",
+      );
     } finally {
       setIsTyping(false);
       setIsLoading(false);
@@ -342,12 +393,20 @@ export function ChatApp() {
                   <div
                     className={cn(
                       "w-2 h-2 rounded-full",
-                      isLoading
+                      connectionStatus === "connecting" || isLoading
                         ? "bg-yellow-400 animate-pulse"
-                        : "bg-green-400",
+                        : connectionStatus === "online"
+                          ? "bg-green-400"
+                          : "bg-red-400",
                     )}
                   />
-                  {isLoading ? "Thinking..." : "Online"}
+                  {isLoading
+                    ? "Thinking..."
+                    : connectionStatus === "connecting"
+                      ? "Connecting..."
+                      : connectionStatus === "online"
+                        ? "Online"
+                        : "Offline"}
                 </div>
               </div>
             </div>
