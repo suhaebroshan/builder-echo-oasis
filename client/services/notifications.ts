@@ -28,6 +28,7 @@ export class NotificationService {
 
   constructor() {
     this.permission = Notification.permission;
+    this.loadSettings();
   }
 
   async requestPermission(): Promise<boolean> {
