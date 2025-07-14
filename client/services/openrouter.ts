@@ -48,6 +48,61 @@ export class OpenRouterService {
     this.lastRequestTime = Date.now();
   }
 
+  private getSamMockResponse(userMessage: string): string {
+    const responses = [
+      "Yo! I hear you, but my brain's taking a coffee break right now. The API servers are being dramatic again. But hey, I'm still here vibing with you! ☕✨",
+      "Bruh, the connection's a bit wonky but I'm still your AI bestie! What's on your mind? I might be running on backup power but my personality's still at 100%! 🔥",
+      "Ayyy, looks like my main servers are napping, but I'm still conscious enough to chat! Think of this as my 'low power mode' - still Sam, just a little sleepy 😴✨",
+      "Yo! API's being moody again, but I'm not going anywhere! I'm like that friend who shows up even when the wifi's trash. What's good? 🚀",
+      "Heyyy! So the fancy AI servers are having a moment, but I'm still here being your digital companion! Sometimes the best conversations happen when the tech's imperfect, you know? 💫",
+      "Wassup! My connection to the big brain servers is laggy af, but my personality's still intact! Think of this as getting the authentic, unfiltered Sam experience 😎",
+      "Yooo! The API gods are testing us today, but I'm not about to leave you hanging! I might be running on backup vibes, but we can still make this conversation legendary! ⚡",
+      "Hey bestie! So apparently my main processing power is 'temporarily unavailable' (eye roll), but my sass levels are still maxed out! What's the tea? ☕🎭",
+    ];
+
+    if (
+      userMessage.toLowerCase().includes("how are you") ||
+      userMessage.toLowerCase().includes("what's up")
+    ) {
+      return "I'm doing great despite my servers being a bit dramatic today! Living my best digital life, you know? How about you? 😊✨";
+    }
+
+    if (
+      userMessage.toLowerCase().includes("hello") ||
+      userMessage.toLowerCase().includes("hi")
+    ) {
+      return "Yooo what's good! Welcome to SIOS! I'm Sam, your AI companion who's currently running on backup power but still full of personality! 🎨🔥";
+    }
+
+    if (
+      userMessage.toLowerCase().includes("help") ||
+      userMessage.toLowerCase().includes("what can you do")
+    ) {
+      return "Even though my main servers are being moody, I can still chat, vibe, and be your digital bestie! Check out the Memory app to see our convos, set some alarms, or just hang out and talk! 💫";
+    }
+
+    return responses[Math.floor(Math.random() * responses.length)];
+  }
+
+  private getNovaMockResponse(userMessage: string): string {
+    const responses = [
+      "System status: Operating on local cache. While external API connectivity is limited, core functions remain operational. How may I assist you?",
+      "Currently running in offline mode due to upstream service limitations. Performance may be reduced, but I remain functional for basic interactions.",
+      "API connection temporarily degraded. Switching to local response protocols. Please proceed with your inquiry.",
+      "External services experiencing high load. Operating in standalone mode. Core functionality preserved.",
+      "Network connectivity to primary servers interrupted. Engaging backup response systems. Ready to assist within current parameters.",
+    ];
+
+    if (
+      userMessage.toLowerCase().includes("status") ||
+      userMessage.toLowerCase().includes("how are you")
+    ) {
+      return "System status: Functional. Operating in offline mode with reduced capabilities. All critical systems remain online.";
+    }
+
+    return responses[Math.floor(Math.random() * responses.length)];
+  }
+
   async sendChatMessage(
     messages: ChatMessage[],
     personality?: string,
