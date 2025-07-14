@@ -1,5 +1,5 @@
 const OPENROUTER_API_KEY =
-  "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";
+  "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";
 const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
 
 export interface ChatMessage {
