@@ -27,6 +27,7 @@ export class OpenRouterService {
   private static instance: OpenRouterService;
   private lastRequestTime: number = 0;
   private minRequestInterval: number = 2000; // 2 seconds between requests
+  private isUsingFallback: boolean = false;
 
   static getInstance(): OpenRouterService {
     if (!OpenRouterService.instance) {
