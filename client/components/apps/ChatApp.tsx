@@ -371,18 +371,42 @@ export function ChatApp() {
         <div className="p-4 border-b border-white/10 bg-white/5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <button
-                onClick={() => setTtsEnabled(!ttsEnabled)}
-                className={cn(
-                  "p-2 rounded-lg transition-colors text-xs font-medium",
-                  ttsEnabled
-                    ? "bg-green-500/20 text-green-400 border border-green-500/40"
-                    : "bg-white/10 text-white/60 border border-white/20",
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setTtsEnabled(!ttsEnabled)}
+                  className={cn(
+                    "p-2 rounded-lg transition-colors text-xs font-medium",
+                    ttsEnabled
+                      ? "bg-green-500/20 text-green-400 border border-green-500/40"
+                      : "bg-white/10 text-white/60 border border-white/20",
+                  )}
+                  title="Toggle Text-to-Speech"
+                >
+                  {isSpeaking ? "🔊" : ttsEnabled ? "🔊" : "🔇"} TTS
+                </button>
+
+                {ttsEnabled && (
+                  <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-white/10 border border-white/20">
+                    <span className="text-xs text-white/60">🔉</span>
+                    <input
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.1"
+                      value={ttsVolume}
+                      onChange={(e) => {
+                        const vol = parseFloat(e.target.value);
+                        setTtsVolume(vol);
+                        elevenLabsService.setVolume(vol);
+                      }}
+                      className="w-16 h-1 bg-white/20 rounded-lg appearance-none cursor-pointer"
+                      style={{
+                        background: `linear-gradient(to right, #10b981 0%, #10b981 ${ttsVolume * 100}%, rgba(255,255,255,0.2) ${ttsVolume * 100}%, rgba(255,255,255,0.2) 100%)`,
+                      }}
+                    />
+                  </div>
                 )}
-                title="Toggle Text-to-Speech"
-              >
-                🔊 TTS
-              </button>
+              </div>
 
               {/* Sam's Current Emotional State */}
               <div className="flex items-center gap-2 px-2 py-1 rounded-lg bg-white/10 border border-white/20">
@@ -393,20 +417,24 @@ export function ChatApp() {
                   <div
                     className={cn(
                       "w-2 h-2 rounded-full",
-                      connectionStatus === "connecting" || isLoading
-                        ? "bg-yellow-400 animate-pulse"
-                        : connectionStatus === "online"
-                          ? "bg-green-400"
-                          : "bg-red-400",
+                      isSpeaking
+                        ? "bg-blue-400 animate-pulse"
+                        : connectionStatus === "connecting" || isLoading
+                          ? "bg-yellow-400 animate-pulse"
+                          : connectionStatus === "online"
+                            ? "bg-green-400"
+                            : "bg-red-400",
                     )}
                   />
-                  {isLoading
-                    ? "Thinking..."
-                    : connectionStatus === "connecting"
-                      ? "Connecting..."
-                      : connectionStatus === "online"
-                        ? "Online"
-                        : "Offline"}
+                  {isSpeaking
+                    ? "Speaking..."
+                    : isLoading
+                      ? "Thinking..."
+                      : connectionStatus === "connecting"
+                        ? "Connecting..."
+                        : connectionStatus === "online"
+                          ? "Online"
+                          : "Offline"}
                 </div>
               </div>
             </div>
