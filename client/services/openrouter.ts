@@ -71,7 +71,7 @@ export class OpenRouterService {
       userMessage.toLowerCase().includes("hello") ||
       userMessage.toLowerCase().includes("hi")
     ) {
-      return "Yooo what's good! Welcome to SIOS! I'm Sam, your AI companion who's currently running on backup power but still full of personality! 🎨🔥";
+      return "Yooo what's good! Welcome to SIOS! I'm Sam, your AI companion who's currently running on backup power but still full of personality! 🎨����";
     }
 
     if (
@@ -201,15 +201,23 @@ Respond as Sam would - with genuine emotion, personality, and that urban edge. D
     } catch (error) {
       console.error("OpenRouter API error:", error);
 
-      // If it's already our custom error, re-throw it
-      if (error instanceof Error && error.message.includes("Rate limit")) {
-        throw error;
-      }
+      // Use fallback responses instead of throwing errors
+      this.isUsingFallback = true;
 
-      // For network errors or other issues
-      throw new Error(
-        "Failed to connect to AI service. Please check your internet connection.",
+      // Simulate thinking time
+      await new Promise((resolve) =>
+        setTimeout(resolve, 1000 + Math.random() * 1500),
       );
+
+      if (personality === "nova") {
+        return this.getNovaMockResponse(
+          messages[messages.length - 1]?.content || "",
+        );
+      } else {
+        return this.getSamMockResponse(
+          messages[messages.length - 1]?.content || "",
+        );
+      }
     }
   }
 
